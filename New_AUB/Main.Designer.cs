@@ -88,10 +88,12 @@
             // 
             // generateToolStripMenuItem
             // 
+            this.generateToolStripMenuItem.Enabled = false;
             this.generateToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
             this.generateToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.generateToolStripMenuItem.Text = "Generate";
+            this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
             // 
             // encodeToolStripMenuItem
             // 
@@ -99,6 +101,7 @@
             this.encodeToolStripMenuItem.Name = "encodeToolStripMenuItem";
             this.encodeToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
             this.encodeToolStripMenuItem.Text = "Encode";
+            this.encodeToolStripMenuItem.Click += new System.EventHandler(this.encodeToolStripMenuItem_Click);
             // 
             // dataGridView1
             // 
