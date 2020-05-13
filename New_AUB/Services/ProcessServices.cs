@@ -165,7 +165,7 @@ namespace New_AUB.Services
                         string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
                          "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('"+_batchNumber+"',"+ blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
                          "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'","''") + "',1,'" +
-                        check.StartingSerial + "','" + check.EndingSerial + "','R','"+check.Company+"')";
+                        check.StartingSerial + "','" + check.EndingSerial + "','"+check.Company+"','"+check.Company+"')";
 
                         oCommand = new OleDbCommand(sql, oConnect);
 

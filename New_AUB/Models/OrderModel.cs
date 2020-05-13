@@ -30,6 +30,7 @@ namespace New_AUB.Models
         public string AccountName2 { get; set; }
         public Int64 Quantity { get; set; }
         public string ChkType { get; set; }
+        public string ChkName { get; set; }
         public string PcsPerbook { get; set; }
         public string FileName { get; set; }
         public string Extension { get; set; }
@@ -44,7 +45,7 @@ namespace New_AUB.Models
         public string BranchCode { get; set; }
         public string BaeStock { get; set; }
         public string Company { get; set; }
-
+        public DateTime deliveryDate { get; set; }
     }
 
 

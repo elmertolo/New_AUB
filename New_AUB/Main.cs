@@ -70,101 +70,144 @@ namespace New_AUB
             string errorMessage = "";
             batchfile = txtBatch.Text;
             con.GetAllBranches(branch);// get all details in branch database
-            if (Directory.GetFiles(Application.StartupPath + "\\Head\\").Length == 0) // if the path folder is empty
-                MessageBox.Show("No files found in directory path", "***System Error***");
+            deliveryDate = dateTimePicker1.Value;
+            if(deliveryDate == dateTime)
+            {
+                MessageBox.Show("Please set Delivery Date!");
+            }
             else
             {
-                string[] list = Directory.GetFiles(Application.StartupPath + "\\Head\\");
+                
+                
+                deliveryDate = dateTimePicker1.Value;
+                 if (Directory.GetFiles(Application.StartupPath + "\\Head\\").Length == 0) // if the path folder is empty
+                    MessageBox.Show("No files found in directory path", "***System Error***");
+                 else
+                 {
+                    string[] list = Directory.GetFiles(Application.StartupPath + "\\Head\\");
 
-      
+                    string Extension = "";
 
-                if (list != null)
-                {
-                   
-
-
-                    for (int i = 0; i < list.Length; i++)
+                    foreach (string FileName in list)
                     {
-
-                        //reading and storing details from the order files
-                     
-                        string[] lines = File.ReadAllLines(Application.StartupPath + "\\Head\\" + Path.GetFileNameWithoutExtension(list[i]) + ".txt");
-                        for (int b = 0; b < lines.Length; b++)
+                        //Get the Extension Name
+                                              int LoopCount = FileName.ToString().Length - 2;
+                        while (LoopCount > 0)
                         {
 
-                            OrderModel order = new OrderModel();
+                            if (FileName.ToString().Substring(LoopCount, 1) == "." && Extension == "")
+                            {
+                                Extension = FileName.ToString().Substring(LoopCount + 1, FileName.ToString().Length - LoopCount - 1).ToUpper();
+                            }
 
-                            //if (lines[b].Substring(78, 1) == "2")
-                            //{
-
-                            //    orderList[b - 1].AccountName2 = lines[b].Substring(22, 35);
-                            //    //order.BRSTN = lines[b].Substring(1, 9);
-                            //    //order.ChkType = lines[b].Substring(0, 1);
-                            //    //order.AccountNo = lines[b].Substring(10, 12);
-                            //    //order.AccountName = lines[b].Substring(23, 35);
-                            //    //order.Quantity = int.Parse(lines[b].Substring(81, 2));
-                            //}
-                            //else
-                            //{
-                                
-                                order.BRSTN = lines[b].Substring(1, 9);
-                                order.ChkType = lines[b].Substring(0, 1);
-                                order.AccountNo = lines[b].Substring(10, 12);
-                                order.AccountName = lines[b].Substring(23, 35);
-                            
-                                order.Quantity = int.Parse(lines[b].Substring(81, 2));
-                              
-
-                            //}
-                            //}
-                            if (order.ChkType == "B")
-                                order.PcsPerbook = "100";
-                            else
-                                order.PcsPerbook = "50";
-                            order.Extension = Path.GetExtension(list[i]);
-                            order.FileName = Path.GetFileNameWithoutExtension(list[i]);
-                          //  errorMessage += ProcessServices.CheckInBranches(order.BRSTN, order.FileName);
-                            
-                            //checking if the branches is existing in database
-                            var listofbranch = branch.FirstOrDefault(r => r.BRSTN == order.BRSTN);
-                            order.StartingSerial = listofbranch.Reg_LastNo.ToString();
-
-                            order.BranchName = listofbranch.Address1;
-                            order.Address2 = listofbranch.Address2;
-                            order.Address3 = listofbranch.Address3;
-                            order.Address4 = listofbranch.Address4;
-                            order.Address5 = listofbranch.Address5;
-                            order.Address6 = listofbranch.Address6;
-                            order.BranchCode = listofbranch.BranchCode;
-                            order.BaeStock = listofbranch.BaeStock;
-                            order.Company = listofbranch.Company;
-                            if (order.AccountName2 == null)
-                                order.AccountName2 = " ";
-                            orderList.Add(order);
-
+                            LoopCount = LoopCount - 1;
                         }
-
-
+                        MessageBox.Show(Extension);
                     }
-                }
-               
+                    if (Extension == "TXT")
+                    {
+                        if (list != null)
+                        {
 
 
-                if (errorMessage == "")
-                {
-                    //toolStripProgressBar.Visible = false;
 
-                    BindingSource checkBind = new BindingSource();
-                    checkBind.DataSource = orderList;
-                    dataGridView1.DataSource = checkBind;
-                    MessageBox.Show("No Errors Found", "System Message");
+                            for (int i = 0; i < list.Length; i++)
+                            {
 
-                    generateToolStripMenuItem.Enabled = true;
+                                //reading and storing details from the order files
 
-                    checkToolStripMenuItem.Enabled = false;
-                }
-                else
-                    MessageBox.Show(errorMessage, "System Error");
+                                string[] lines = File.ReadAllLines(Application.StartupPath + "\\Head\\" + Path.GetFileNameWithoutExtension(list[i]) + ".txt");
+
+                                for (int b = 0; b < lines.Length; b++)
+                                {
+
+                                    OrderModel order = new OrderModel();
+
+                                    //if (lines[b].Substring(78, 1) == "2")
+                                    //{
+
+                                    //    orderList[b - 1].AccountName2 = lines[b].Substring(22, 35);
+                                    //    //order.BRSTN = lines[b].Substring(1, 9);
+                                    //    //order.ChkType = lines[b].Substring(0, 1);
+                                    //    //order.AccountNo = lines[b].Substring(10, 12);
+                                    //    //order.AccountName = lines[b].Substring(23, 35);
+                                    //    //order.Quantity = int.Parse(lines[b].Substring(81, 2));
+                                    //}
+                                    //else
+                                    //{
+
+                                    order.BRSTN = lines[b].Substring(1, 9);
+                                    order.ChkType = lines[b].Substring(0, 1);
+                                    order.AccountNo = lines[b].Substring(10, 12);
+                                    order.AccountName = lines[b].Substring(23, 35);
+
+                                    order.Quantity = int.Parse(lines[b].Substring(81, 2));
+
+
+                                    //}
+                                    //}
+                                    if (order.ChkType == "B")
+                                    {
+                                        order.ChkName = "Regular Commercial Checks";
+                                        order.PcsPerbook = "100";
+                                    }
+                                    else
+
+                                    {
+                                        order.ChkName = "Regular Commercial Checks";
+                                        order.PcsPerbook = "50";
+                                    }
+                                    order.Extension = Path.GetExtension(list[i]);
+                                    order.FileName = Path.GetFileNameWithoutExtension(list[i]);
+                                    //  errorMessage += ProcessServices.CheckInBranches(order.BRSTN, order.FileName);
+                                    order.deliveryDate = deliveryDate;
+                                    //checking if the branches is existing in database
+                                    var listofbranch = branch.FirstOrDefault(r => r.BRSTN == order.BRSTN);
+                                    order.StartingSerial = listofbranch.Reg_LastNo.ToString();
+
+                                    order.BranchName = listofbranch.Address1;
+                                    order.Address2 = listofbranch.Address2;
+                                    order.Address3 = listofbranch.Address3;
+                                    order.Address4 = listofbranch.Address4;
+                                    order.Address5 = listofbranch.Address5;
+                                    order.Address6 = listofbranch.Address6;
+                                    order.BranchCode = listofbranch.BranchCode;
+                                    order.BaeStock = listofbranch.BaeStock;
+                                    order.Company = listofbranch.Company;
+                                    if (order.AccountName2 == null)
+                                        order.AccountName2 = " ";
+                                    orderList.Add(order);
+
+                                }
+
+
+                            }
+                        }
+                    }
+                    else if (Extension == "XSL" || Extension == "XLSX")
+                    {
+
+                        MessageBox.Show("Hello World!");
+                    }
+
+
+                        if (errorMessage == "")
+                    {
+                        //toolStripProgressBar.Visible = false;
+
+                        BindingSource checkBind = new BindingSource();
+                        checkBind.DataSource = orderList;
+                        dataGridView1.DataSource = checkBind;
+                        MessageBox.Show("No Errors Found", "System Message");
+
+                        generateToolStripMenuItem.Enabled = true;
+
+                        checkToolStripMenuItem.Enabled = false;
+                    }
+                    else
+                        MessageBox.Show(errorMessage, "System Error");
+                 }
+                 
             }
         }
 
@@ -184,6 +227,10 @@ namespace New_AUB
             process.DoBlockProcess(orderList, this);
             process.PrinterFile(orderList, this);
             process.SaveToPackingDBF(orderList,batchfile ,this);
+            for (int i = 0; i < orderList.Count; i++)
+            {
+                con.SavedDatatoDatabase(orderList[i], batchfile);
+            }
             MessageBox.Show("Done!");
         }
 

@@ -99,6 +99,41 @@ namespace New_AUB.Services
 
         }
 
+        public OrderModel SavedDatatoDatabase(OrderModel _check, string _batch)
+        {
+
+            string sql = "INSERT INTO captive_database.aub_history(Date,Time,DeliveryDate,ChkType,ChequeName,BRSTN,AccountNo,Name1,Name2,Address1,BranchCode,Address2,Address3,Address4,Address5,Address6,Batch,StartingSerial, EndingSerial)VALUES(" +
+
+                        "'" + DateTime.Now.ToString("yyyy-MM-dd") + "'," +
+                        "'" + DateTime.Now.ToString("HH:mm:ss") + "'," +
+                        "'" + _check.deliveryDate.ToString("yyyy-MM-dd") + "'," +
+                        "'" + _check.ChkType + "'," +
+                        "'" + _check.ChkName + "'," +
+                        "'" + _check.BRSTN + "'," +
+                        "'" + _check.AccountNo + "'," +
+                        "'" + _check.AccountName + "'," +
+                        "'" + _check.AccountName2 + "'," +
+                        "'" + _check.BranchName.Replace("'","''") + "'," +
+                        "'" + _check.BranchCode + "'," +
+                        "'" + _check.Address2.Replace("'", "''") + "'," +
+                        "'" + _check.Address3.Replace("'", "''") + "'," +
+                        "'" + _check.Address4.Replace("'", "''") + "'," +
+                        "'" + _check.Address5.Replace("'", "''") + "'," +
+                        "'" + _check.Address6.Replace("'", "''") + "'," +
+                        "'" + _batch + "'," +
+                        "'" + _check.StartingSerial + "'," +
+                        "'" + _check.EndingSerial + "')";
+
+
+
+            DBConnect();
+            MySqlCommand myCommand = new MySqlCommand(sql, myConnect);
+
+            myCommand.ExecuteNonQuery();
+            DBClosed();
+            return _check;
+        }// end of function
+       
 
     }
 }
