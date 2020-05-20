@@ -98,6 +98,49 @@ namespace New_AUB.Services
             return _branches;
 
         }
+        public List<BranchModelRb> GetAllBranchesRB(List<BranchModelRb> _branches)
+        {
+            DBConnect();
+            string sql = "Select * from " + databaseName + ".aub_rb_branches";
+            //List<BranchModel> Branches = new List<BranchModel>();
+
+            MySqlCommand myCommand = new MySqlCommand(sql, myConnect);
+
+            MySqlDataReader myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                BranchModelRb branch = new BranchModelRb();
+
+                branch.BRSTN = myReader.GetString(0);
+
+
+                branch.Address1 = !myReader.IsDBNull(1) ? myReader.GetString(1) : "";
+
+                branch.Address2 = !myReader.IsDBNull(2) ? myReader.GetString(2) : "";
+
+                branch.Address3 = !myReader.IsDBNull(3) ? myReader.GetString(3) : "";
+
+                branch.Address4 = !myReader.IsDBNull(4) ? myReader.GetString(4) : "";
+
+                branch.Address5 = !myReader.IsDBNull(5) ? myReader.GetString(5) : "";
+                branch.Address6 = !myReader.IsDBNull(6) ? myReader.GetString(6) : "";
+                branch.AccountNo = !myReader.IsDBNull(7) ? myReader.GetString(7) : "";
+               // branch.Company = !myReader.IsDBNull(7) ? myReader.GetString(7) : "";
+               // branch.BranchCode = !myReader.IsDBNull(8) ? myReader.GetString(8) : "";
+                //branch.BaeStock = !myReader.IsDBNull(9) ? myReader.GetString(9) : "";
+               // branch.Reg_LastNo = !myReader.IsDBNull(10) ? myReader.GetInt64(10) : 0;
+
+              //  branch.Binan_LastNo = !myReader.IsDBNull(11) ? myReader.GetInt64(11) : 0;
+
+
+                _branches.Add(branch);
+            }//END OF WHILE
+            DBClosed();
+
+            return _branches;
+
+        }
 
         public OrderModel SavedDatatoDatabase(OrderModel _check, string _batch)
         {

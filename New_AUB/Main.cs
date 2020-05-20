@@ -21,8 +21,10 @@ namespace New_AUB
         DateTime dateTime;
         DbConServices con = new DbConServices();
         List<BranchModel> branch = new List<BranchModel>();
+        List<BranchModelRb> branchRb = new List<BranchModelRb>();
         ProcessServices process = new ProcessServices();
         List<OrderModel> orderList = new List<OrderModel>();
+        List<OrderModelRb> orderListRb = new List<OrderModelRb>();
         public frmMain()
         {
 
@@ -70,6 +72,7 @@ namespace New_AUB
             string errorMessage = "";
             batchfile = txtBatch.Text;
             con.GetAllBranches(branch);// get all details in branch database
+            con.GetAllBranchesRB(branchRb);// get all details in branch database
             deliveryDate = dateTimePicker1.Value;
             if(deliveryDate == dateTime)
             {
@@ -91,7 +94,7 @@ namespace New_AUB
                     foreach (string FileName in list)
                     {
                         //Get the Extension Name
-                                              int LoopCount = FileName.ToString().Length - 2;
+                        int LoopCount = FileName.ToString().Length - 2;
                         while (LoopCount > 0)
                         {
 
@@ -102,101 +105,160 @@ namespace New_AUB
 
                             LoopCount = LoopCount - 1;
                         }
-                        MessageBox.Show(Extension);
-                    }
-                    if (Extension == "TXT")
-                    {
-                        if (list != null)
+                        //MessageBox.Show(Extension);
+
+                        if (Extension == "TXT")
                         {
+                            if (list != null)
+                            {
 
 
 
+                                for (int i = 0; i < list.Length; i++)
+                                {
+
+                                    //reading and storing details from the order files
+
+                                    string[] lines = File.ReadAllLines(Application.StartupPath + "\\Head\\" + Path.GetFileNameWithoutExtension(list[i]) + ".txt");
+
+                                    for (int b = 0; b < lines.Length; b++)
+                                    {
+
+                                        OrderModel order = new OrderModel();
+
+                                        //if (lines[b].Substring(78, 1) == "2")
+                                        //{
+
+                                        //    orderList[b - 1].AccountName2 = lines[b].Substring(22, 35);
+                                        //    //order.BRSTN = lines[b].Substring(1, 9);
+                                        //    //order.ChkType = lines[b].Substring(0, 1);
+                                        //    //order.AccountNo = lines[b].Substring(10, 12);
+                                        //    //order.AccountName = lines[b].Substring(23, 35);
+                                        //    //order.Quantity = int.Parse(lines[b].Substring(81, 2));
+                                        //}
+                                        //else
+                                        //{
+
+                                        order.BRSTN = lines[b].Substring(1, 9);
+                                        order.ChkType = lines[b].Substring(0, 1);
+                                        order.AccountNo = lines[b].Substring(10, 12);
+                                        order.AccountName = lines[b].Substring(23, 35);
+
+                                        order.Quantity = int.Parse(lines[b].Substring(81, 2));
+
+
+                                        //}
+                                        //}
+                                        if (order.ChkType == "B")
+                                        {
+                                            order.ChkName = "Regular Commercial Checks";
+                                            order.PcsPerbook = "100";
+                                        }
+                                        else
+
+                                        {
+                                            order.ChkName = "Regular Commercial Checks";
+                                            order.PcsPerbook = "50";
+                                        }
+                                        order.Extension = Path.GetExtension(list[i]);
+                                        order.FileName = Path.GetFileNameWithoutExtension(list[i]);
+                                        //  errorMessage += ProcessServices.CheckInBranches(order.BRSTN, order.FileName);
+                                        order.deliveryDate = deliveryDate;
+                                        //checking if the branches is existing in database
+                                        
+                                        var listofbranch = branch.FirstOrDefault(r => r.BRSTN == order.BRSTN);
+                                        
+                                        order.StartingSerial = (listofbranch.Reg_LastNo + 1).ToString();
+
+                                        order.BranchName = listofbranch.Address1;
+                                        order.Address2 = listofbranch.Address2;
+                                        order.Address3 = listofbranch.Address3;
+                                        order.Address4 = listofbranch.Address4;
+                                        order.Address5 = listofbranch.Address5;
+                                        order.Address6 = listofbranch.Address6;
+                                        order.BranchCode = listofbranch.BranchCode;
+                                        order.BaeStock = listofbranch.BaeStock;
+                                        order.Company = listofbranch.Company;
+                                        if (order.AccountName2 == null)
+                                            order.AccountName2 = " ";
+                                        orderList.Add(order);
+
+                                    }
+
+
+                                }
+                            }
+                        }
+                        else if (Extension == "XLS" || Extension == "XLSX")
+                        {
+                           // string _fileName = "";
                             for (int i = 0; i < list.Length; i++)
                             {
 
-                                //reading and storing details from the order files
+                               // _fileName = Path.GetFileName(list[i]);
+                                Excel.Application xlApp = new Excel.Application();
+                                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(FileName);
 
-                                string[] lines = File.ReadAllLines(Application.StartupPath + "\\Head\\" + Path.GetFileNameWithoutExtension(list[i]) + ".txt");
-
-                                for (int b = 0; b < lines.Length; b++)
+                                int SheetsCount = xlWorkbook.Sheets.Count;
+                                for (int b = 0; b < SheetsCount; b++)
                                 {
+                                    Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[b + 1];
+                                    Excel.Range xlRange = xlWorksheet.UsedRange;
 
-                                    OrderModel order = new OrderModel();
+                                    int rowCount = xlRange.Rows.Count;
+                                    int colCount = xlRange.Columns.Count;
+                                    string SheetName = xlWorksheet.Name.ToUpper();
 
-                                    //if (lines[b].Substring(78, 1) == "2")
-                                    //{
+                                   
+                                  //  int row = 5;
 
-                                    //    orderList[b - 1].AccountName2 = lines[b].Substring(22, 35);
-                                    //    //order.BRSTN = lines[b].Substring(1, 9);
-                                    //    //order.ChkType = lines[b].Substring(0, 1);
-                                    //    //order.AccountNo = lines[b].Substring(10, 12);
-                                    //    //order.AccountName = lines[b].Substring(23, 35);
-                                    //    //order.Quantity = int.Parse(lines[b].Substring(81, 2));
-                                    //}
-                                    //else
-                                    //{
-
-                                    order.BRSTN = lines[b].Substring(1, 9);
-                                    order.ChkType = lines[b].Substring(0, 1);
-                                    order.AccountNo = lines[b].Substring(10, 12);
-                                    order.AccountName = lines[b].Substring(23, 35);
-
-                                    order.Quantity = int.Parse(lines[b].Substring(81, 2));
-
-
-                                    //}
-                                    //}
-                                    if (order.ChkType == "B")
+                                    for (int c = 0; c < rowCount-4; c++)
                                     {
-                                        order.ChkName = "Regular Commercial Checks";
-                                        order.PcsPerbook = "100";
+                                        OrderModelRb check = new OrderModelRb();
+                                        check.BRSTN = xlRange.Cells[c+5, 8].Text;
+                                        check.ChkName = xlRange.Cells[c + 5, 3].Text;
+                                        check.AccountNo = xlRange.Cells[c + 5, 7].Text;
+                                        check.AccountName = xlRange.Cells[c + 5, 10].Text;
+                                        check.AccountNoRb = xlRange.Cells[c + 5, 9].Text;
+                                        check.Quantity = Int64.Parse(xlRange.Cells[c + 5, 1].Text);
+                                        var listofbranch = branchRb.FirstOrDefault(r => r.BRSTN == check.BRSTN);
+                                        check.BranchName = listofbranch.Address1;
+                                        check.Address2 = listofbranch.Address2;
+                                        check.Address3 = listofbranch.Address3;
+                                        check.StartingSerial = (listofbranch.LastNo + 1).ToString();
+
+
+                                        if(check.ChkName.Contains("Personal"))
+                                        {
+                                            check.ChkType = "A";
+                                            check.PcsPerbook = "50";
+                                        }
+
+                                        else
+                                        {
+                                            check.ChkType = "B";
+                                            check.PcsPerbook = "100";
+                                        }
+                                        orderListRb.Add(check);
+                                       // row++;
                                     }
-                                    else
 
-                                    {
-                                        order.ChkName = "Regular Commercial Checks";
-                                        order.PcsPerbook = "50";
-                                    }
-                                    order.Extension = Path.GetExtension(list[i]);
-                                    order.FileName = Path.GetFileNameWithoutExtension(list[i]);
-                                    //  errorMessage += ProcessServices.CheckInBranches(order.BRSTN, order.FileName);
-                                    order.deliveryDate = deliveryDate;
-                                    //checking if the branches is existing in database
-                                    var listofbranch = branch.FirstOrDefault(r => r.BRSTN == order.BRSTN);
-                                    order.StartingSerial = listofbranch.Reg_LastNo.ToString();
-
-                                    order.BranchName = listofbranch.Address1;
-                                    order.Address2 = listofbranch.Address2;
-                                    order.Address3 = listofbranch.Address3;
-                                    order.Address4 = listofbranch.Address4;
-                                    order.Address5 = listofbranch.Address5;
-                                    order.Address6 = listofbranch.Address6;
-                                    order.BranchCode = listofbranch.BranchCode;
-                                    order.BaeStock = listofbranch.BaeStock;
-                                    order.Company = listofbranch.Company;
-                                    if (order.AccountName2 == null)
-                                        order.AccountName2 = " ";
-                                    orderList.Add(order);
-
+                                   
+                                    
                                 }
 
-
                             }
+                            
+                            MessageBox.Show("Hellow World!" + orderListRb[0].AccountName);
                         }
+
                     }
-                    else if (Extension == "XSL" || Extension == "XLSX")
-                    {
-
-                        MessageBox.Show("Hello World!");
-                    }
-
-
                         if (errorMessage == "")
                     {
                         //toolStripProgressBar.Visible = false;
 
                         BindingSource checkBind = new BindingSource();
-                        checkBind.DataSource = orderList;
+                        checkBind.DataSource = orderListRb;
                         dataGridView1.DataSource = checkBind;
                         MessageBox.Show("No Errors Found", "System Message");
 
@@ -222,13 +284,23 @@ namespace New_AUB
             }
 
             //List<OrderModel> dprocess = new List<OrderModel>();
-           
-            process.PackingText(orderList, this);
-            process.DoBlockProcess(orderList, this);
-            process.PrinterFile(orderList, this);
-            process.SaveToPackingDBF(orderList,batchfile ,this);
+            if (orderList != null)
+            {
+                process.PackingText(orderList, this);
+                process.DoBlockProcess(orderList, this);
+                process.PrinterFile(orderList, this);
+                process.SaveToPackingDBF(orderList, batchfile, this);
+            }
+            if(orderListRb != null)
+            {
+                process.DoBlockProcessRB(orderListRb,this);
+                process.PackingTextRB(orderListRb, this);
+                process.PrinterFileRb(orderListRb, this);
+                process.SaveToPackingDBFRb(orderListRb,batchfile, this);
+            }
             for (int i = 0; i < orderList.Count; i++)
             {
+                
                 con.SavedDatatoDatabase(orderList[i], batchfile);
             }
             MessageBox.Show("Done!");
