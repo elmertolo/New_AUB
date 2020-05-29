@@ -76,6 +76,7 @@ namespace New_AUB.Models
         public string BaeStock { get; set; }
         public string BranchCode { get; set; }
         public Int64 Reg_LastNo  { get; set; }
-        public Int64 Binan_LastNo { get; set; }
+        //public Int64 Binan_LastNo { get; set; }
+        public DateTime Date { get; set; }
     }
 }

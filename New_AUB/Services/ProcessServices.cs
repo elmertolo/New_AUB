@@ -257,9 +257,12 @@ namespace New_AUB.Services
 
                     using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                     {
+                        //for (int i = 0; i < check; i++)
+                        //{
 
-                        string output = OutputServices.ConvertToBlockTextRB(checks, "PERSONAL", _mainForm.batchfile, _mainForm.deliveryDate, frmLogIn.userName);
 
+                            string output = OutputServices.ConvertToBlockTextRB(checks, "PERSONAL", _mainForm.batchfile, _mainForm.deliveryDate, frmLogIn.userName);
+                      //  }
                         file.WriteLine(output);
                     }
 
@@ -421,7 +424,7 @@ namespace New_AUB.Services
                     //for (int a = 0; a < check.Count; a++)
                     //{
 
-
+                   
                     using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
                     {
                         string output = OutputServices.ConvertToPrinterFileRB(check);
@@ -431,6 +434,33 @@ namespace New_AUB.Services
                     //}
                     // ZipFileServices.CopyPrinterFile(checktype, _mainForm);
                     //ZipFileServices.CopyPackingDBF(checktype, _mainForm);
+                }
+            }
+        }
+       public void WriteOrderFile(List<OrderModel> _order)
+        {
+            string path = Application.StartupPath + "\\OrderFile.txt";
+            //if (File.Exists(path))
+            //    File.Delete(path);
+
+            //file = File.CreateText(path);
+            //file.Close();
+            
+            using (file = new StreamWriter(File.Open(path, FileMode.Append)))
+            {
+                // var listofcchecks = _order.Select(e => e.BRSTN).ToList();
+                for (int i = 0; i < _order.Count; i++)
+                {
+                    string output = _order[i].BRSTN + _order[i].AccountName + _order[i].AccountName2;
+
+
+
+
+
+
+                    //  string output = OutputServices.ConvertToPrinterFileRB(_order);
+
+                    file.WriteLine(output);
                 }
             }
         }

@@ -19,8 +19,17 @@ namespace New_AUB.Models
         public string BRSTN { get; set; }
         public string AccountNo { get; set; }
         public string AccountNoRb { get; set; }
+        private string _accountName;
         private string _accountName2;
         public string AccountName
+        {
+            get
+            {
+                return (returnBlankIfNull(_accountName));
+            }
+            set { _accountName = value; }
+        }
+        public string AccountName2
         {
             get
             {
@@ -28,7 +37,6 @@ namespace New_AUB.Models
             }
             set { _accountName2 = value; }
         }
-        public string AccountName2 { get; set; }
         public Int64 Quantity { get; set; }
         public string ChkType { get; set; }
         public string ChkName { get; set; }

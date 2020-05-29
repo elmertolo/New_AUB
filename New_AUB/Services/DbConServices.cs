@@ -87,8 +87,8 @@ namespace New_AUB.Services
                 branch.BranchCode = !myReader.IsDBNull(8) ? myReader.GetString(8) : "";
                 branch.BaeStock = !myReader.IsDBNull(9) ? myReader.GetString(9) : "";
                 branch.Reg_LastNo = !myReader.IsDBNull(10) ? myReader.GetInt64(10) :0;
-
-                branch.Binan_LastNo = !myReader.IsDBNull(11) ? myReader.GetInt64(11) : 0;
+                branch.Date = !myReader.IsDBNull(11) ? myReader.GetDateTime(11): DateTime.Today;
+              //  branch.Binan_LastNo = !myReader.IsDBNull(11) ? myReader.GetInt64(11) : 0;
 
 
                 _branches.Add(branch);
@@ -126,7 +126,7 @@ namespace New_AUB.Services
                 branch.Address5 = !myReader.IsDBNull(5) ? myReader.GetString(5) : "";
                 branch.Address6 = !myReader.IsDBNull(6) ? myReader.GetString(6) : "";
                 branch.AccountNo = !myReader.IsDBNull(7) ? myReader.GetString(7) : "";
-               // branch.Company = !myReader.IsDBNull(7) ? myReader.GetString(7) : "";
+                branch.LastNo = !myReader.IsDBNull(8) ? myReader.GetInt64(8) : 0;
                // branch.BranchCode = !myReader.IsDBNull(8) ? myReader.GetString(8) : "";
                 //branch.BaeStock = !myReader.IsDBNull(9) ? myReader.GetString(9) : "";
                // branch.Reg_LastNo = !myReader.IsDBNull(10) ? myReader.GetInt64(10) : 0;
@@ -154,8 +154,8 @@ namespace New_AUB.Services
                         "'" + _check.ChkName + "'," +
                         "'" + _check.BRSTN + "'," +
                         "'" + _check.AccountNo + "'," +
-                        "'" + _check.AccountName + "'," +
-                        "'" + _check.AccountName2 + "'," +
+                        "'" + _check.AccountName.Replace("'","''") + "'," +
+                        "'" + _check.AccountName2.Replace("'", "''") + "'," +
                         "'" + _check.BranchName.Replace("'","''") + "'," +
                         "'" + _check.BranchCode + "'," +
                         "'" + _check.Address2.Replace("'", "''") + "'," +
@@ -176,7 +176,17 @@ namespace New_AUB.Services
             DBClosed();
             return _check;
         }// end of function
-       
 
+        public BranchModel UpdateRef(BranchModel _ref)
+        {
+            DBConnect();
+            string sql = "Update captive_database.aub_branches SET Reg_LastNo = '" + _ref.Reg_LastNo + "', ModifiedDate = '" + _ref.Date.ToString("yyyy-MM-dd") + "' where BRSTN = '" + _ref.BRSTN  + "'";
+            MySqlCommand cmd = new MySqlCommand(sql, myConnect);
+
+            MySqlDataReader myReader = cmd.ExecuteReader();
+            DBClosed();
+            return _ref;
+
+        }// end of function
     }
 }

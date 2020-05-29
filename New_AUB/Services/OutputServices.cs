@@ -31,6 +31,7 @@ namespace New_AUB.Services
         public static string ConvertToBlockText(List<OrderModel> _check, string _ChkType, string _batchNumber, DateTime _deliveryDate, string _preparedBy)
 
         {
+
             int page = 1, lineCount = 14, blockCounter = 1, blockContent = 1;
             string date = DateTime.Now.ToString("MMM. dd, yyyy");
             bool noFooter = true;
@@ -609,8 +610,18 @@ namespace New_AUB.Services
             }
 
             return output;
-        }
+        }//end of function
+            public static string  OrderFile(List<OrderModel> _order)
+            {
+            string output = "";
+            foreach (var order in _order)
+                {
+                output = order.ChkType + order.BRSTN + order.AccountNo + order.AccountName + order.BranchName + order.AccountName2 + order.PcsPerbook;
 
+                
+                }
+               return output;
+            }
     }
 
 }
