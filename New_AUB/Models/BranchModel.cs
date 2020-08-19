@@ -11,7 +11,7 @@ namespace New_AUB.Models
         private string returnBlankIfNull(string _input)
         {
             if (_input == null)
-                return "";
+                return " ";
             else
                 return _input;
         }
@@ -76,7 +76,13 @@ namespace New_AUB.Models
         public string BaeStock { get; set; }
         public string BranchCode { get; set; }
         public Int64 Reg_LastNo  { get; set; }
+        public Int64 Adv_LastNo { get; set; }
         //public Int64 Binan_LastNo { get; set; }
         public DateTime Date { get; set; }
+        public Int64 MC_LastNo { get; set; }
+        public Int64 MCS_LastNo { get; set; }
+        public Int64 Con_LastNo { get; set; }
+        public Int64 CV_LastNo { get; set; }
+        public string AccountNo { get; set; }
     }
 }

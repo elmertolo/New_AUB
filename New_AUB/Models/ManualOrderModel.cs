@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace New_AUB.Models
 {
-    class OrderModelRb
+    class ManualOrderModel
     {
         private string returnBlankIfNull(string _input)
         {
@@ -41,8 +41,6 @@ namespace New_AUB.Models
         public string ChkType { get; set; }
         public string ChkName { get; set; }
         public string PcsPerbook { get; set; }
-        public string FileName { get; set; }
-        public string Extension { get; set; }
         public string StartingSerial { get; set; }
         public string EndingSerial { get; set; }
         public string BranchName { get; set; }
@@ -51,10 +49,6 @@ namespace New_AUB.Models
         public string Address4 { get; set; }
         public string Address5 { get; set; }
         public string Address6 { get; set; }
-        public string BranchCode { get; set; }
-        public string BaeStock { get; set; }
-        public string Company { get; set; }
-        public DateTime deliveryDate { get; set; }
-        public string BankName { get; set; }
+        public string  FileName { get; set; }
     }
 }
