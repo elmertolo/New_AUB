@@ -384,15 +384,19 @@ namespace New_AUB.Services
             GenerateSpace(5) + "Starting Batch " + _batchNumber + ", New MICR Alignment of NCDSS is 15-54 ! ! !\n\n" +
             GenerateSpace(14) + "Hyphen: 5-5-1" + GenerateSpace(5) + "Additional 0 (zero) are in 6th Digit" + "\n\n\n" +
             GenerateSpace(8) + "BLOCK RT_NO" + GenerateSpace(5) + "M ACCT_NO" + GenerateSpace(9) + "START_NO." + GenerateSpace(2) + "END_NO.\n\n";
-            Int64 checkTypeCount = 0;
+            //Int64 checkTypeCount = 0;
+       //     Int64 SN = 0;
+            DbConServices con = new DbConServices();
+            
             foreach (var check in sort)
             {
-
+              
                 if (check.BankName == "Aspac_Rural")
                 {
+                   
                     if (_ChkType == "PERSONAL")
                     {
-                        checkTypeCount = check.Quantity;
+                      //  checkTypeCount = check.Quantity;
                         while (check.StartingSerial.Length < 7)
                             check.StartingSerial = "0" + check.StartingSerial;
 
@@ -441,12 +445,12 @@ namespace New_AUB.Services
             }
             foreach (var check in sort)
             {
-
+        
                 if (check.BankName == "Imus_Rural_Bank")
                 {
                     if (_ChkType == "PERSONAL")
                     {
-                        checkTypeCount = check.Quantity;
+                      //  checkTypeCount = check.Quantity;
                         while (check.StartingSerial.Length < 7)
                             check.StartingSerial = "0" + check.StartingSerial;
 
@@ -493,13 +497,498 @@ namespace New_AUB.Services
                     }
                 }
             }
+            foreach (var check in sort)
+            {
 
+                if (check.BankName == "Masuwerte")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Rural_Bank_of_Angeles")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Banko_Mabuhay")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Rural_Bank_of_Cardona")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Rural_Bank_of_Dulag")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Rural_Bank_of_Kawit")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Rural_Bank_of_Mexico")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Rural_Bank_of_Porac")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
+            foreach (var check in sort)
+            {
+
+                if (check.BankName == "Rural_Bank_of_Salinas")
+                {
+                    if (_ChkType == "PERSONAL")
+                    {
+                        //  checkTypeCount = check.Quantity;
+                        while (check.StartingSerial.Length < 7)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+
+                        while (check.EndingSerial.Length < 7)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+                    else
+                    {
+
+                        while (check.StartingSerial.Length < 10)
+                            check.StartingSerial = "0" + check.StartingSerial;
+
+                        while (check.EndingSerial.Length < 10)
+                            check.EndingSerial = "0" + check.EndingSerial;
+                    }
+
+
+                    if (blockContent == 1)
+                    {
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+                        lineCount += 2;
+                    }
+
+                    if (blockContent == 5)
+                    {
+                        blockContent = 2;
+
+                        blockCounter++;
+
+                        output += "\n" + GenerateSpace(7) + "** BLOCK " + blockCounter.ToString() + "\n";
+
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+                    }
+                    else
+                    {
+                        output += GenerateSpace(12) + blockCounter.ToString() + " " + check.BRSTN + GenerateSpace(3) + check.AccountNo +
+                        GenerateSpace(4) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + "\n";
+
+                        lineCount += 1;
+
+                        blockContent++;
+                    }
+                }
+            }
             //if (lineCount >=61 )
             //{
             if (noFooter) //ADD FOOTER
             {
                 output += "\n " + _batchNumber + GenerateSpace(46) + "DLVR: " + _deliveryDate.ToString("MM-dd(ddd)") + "\n\n" +
-                    " A = " + checkTypeCount + GenerateSpace(20) + _check[0].FileName + ".txt\n" +
+                    " A = " +GenerateSpace(20) + frmMain._fileName + ".txt\n" +
                     countText +
                     GenerateSpace(4) + "Prepared By" + GenerateSpace(3) + ": " + _preparedBy + "\t\t\t\t RECHECKED BY:\n" +
                     GenerateSpace(4) + "Updated By" + GenerateSpace(4) + ": " + _preparedBy + "\n" +
@@ -544,38 +1033,39 @@ namespace New_AUB.Services
 
                 foreach (var check in listofchecks)
                 {
+                   
+                        if (_checkType == "PERSONAL")
+                        {
+                            while (check.StartingSerial.Length < 7)
+                                check.StartingSerial = "0" + check.StartingSerial;
 
-                    if (_checkType == "PERSONAL")
-                    {
-                        while (check.StartingSerial.Length < 7)
-                            check.StartingSerial = "0" + check.StartingSerial;
+                            while (check.EndingSerial.Length < 7)
+                                check.EndingSerial = "0" + check.EndingSerial;
+                        }
+                        else
+                        {
+                            while (check.StartingSerial.Length < 10)
+                                check.StartingSerial = "0" + check.StartingSerial;
 
-                        while (check.EndingSerial.Length < 7)
-                            check.EndingSerial = "0" + check.EndingSerial;
-                    }
-                    else
-                    {
-                        while (check.StartingSerial.Length < 10)
-                            check.StartingSerial = "0" + check.StartingSerial;
+                            while (check.EndingSerial.Length < 10)
+                                check.EndingSerial = "0" + check.EndingSerial;
+                        }//END OF ADDING ZERO IN SERIES NUMBER
 
-                        while (check.EndingSerial.Length < 10)
-                            check.EndingSerial = "0" + check.EndingSerial;
-                    }//END OF ADDING ZERO IN SERIES NUMBER
+                        output += GenerateSpace(2) + check.AccountNo + GenerateSpace(4);
 
-                    output += GenerateSpace(2) + check.AccountNo + GenerateSpace(4);
+                        if (check.AccountName.Length < 50)
+                            output += check.AccountName + GenerateSpace(50 - check.AccountName.Length);
+                        else if (check.AccountName.Length > 50)
+                             output += check.AccountName2.Substring(0, 50);
 
-                    if (check.AccountName.Length < 50)
-                        output += check.AccountName + GenerateSpace(50 - check.AccountName.Length);
-                    else if (check.AccountName.Length > 50)
-                       // output += check.AccountName2.Substring(0, 50);
-
-                    output += "  1 " + check.ChkType + GenerateSpace(2) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + " \n";
-                    if (check.AccountName2 != "")
-                        output += GenerateSpace(18) + check.AccountName2 + "\n";
+                            output += "  1 " + check.ChkType + GenerateSpace(2) + check.StartingSerial + GenerateSpace(4) + check.EndingSerial + " \n";
+                        if (check.AccountName2 != "")
+                            output += GenerateSpace(18) + check.AccountName2 + "\n";
+                    
                 }
 
                 output += "\n";
-                output += "  * * * Sub Total * * * " + listofchecks.Count + "\n";
+                output += "  * * * Sub Total * * * " + listofchecks.Count + "\n\n";
 
                 page++;
                 i++;

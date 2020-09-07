@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO.Compression;
 using System.Windows.Forms;
 using System.IO;
+using New_AUB.Models;
 
 namespace New_AUB.Services
 {
@@ -27,7 +28,7 @@ namespace New_AUB.Services
 
             string sPath = Application.StartupPath + "\\Output\\" + frmMain.outputFolder;
             string dPath = Application.StartupPath+ "\\Output\\AFT_" + frmMain.batch+ "_" + _processby + ".zip";
-            DeleteFiles(".zip");
+            DeleteFiles(".zip",Application.StartupPath + "\\Output");
             ZipFile.CreateFromDirectory(sPath, dPath);
             Ionic.Zip.ZipFile zips = new Ionic.Zip.ZipFile(dPath);
             //Adding order file to zip file
@@ -36,10 +37,43 @@ namespace New_AUB.Services
             zips.Save();
 
         }
-        public void DeleteFiles(string _ext)
+        public void ZipFileRb(string _processby, frmMain main,List<OrderModelRb> _orders)
         {
 
-            DirectoryInfo di = new DirectoryInfo(Application.StartupPath +"\\Output");
+            string sPath = sPath = Application.StartupPath + "\\Output\\";
+            string dPath = Application.StartupPath + "\\Output\\AFT_" + main.batchfile + "_" + _processby + ".zip";
+            DeleteFiles(".zip", Application.StartupPath + "\\Output");
+            ZipFile.CreateFromDirectory(Application.StartupPath + "\\Head", dPath);
+            Ionic.Zip.ZipFile zips = new Ionic.Zip.ZipFile(dPath);
+            string path = "";
+
+            //Adding order file to zip file
+            //  zips.AddItem(Application.StartupPath + "\\Head");
+            for (int i = 0; i < _orders.Count; i++)
+            {
+               
+                    sPath = Application.StartupPath + "\\Output\\" + _orders[i].BankName;
+
+                if (sPath == path )
+                    //sPath = Application.StartupPath + "\\Output\\" + _orders[i].BankName;
+                    i++;
+
+                else
+                {
+                    zips.AddDirectory(sPath, _orders[i].BankName);
+                    zips.Save();
+                    zips.Dispose();
+                    path = Application.StartupPath + "\\Output\\" + _orders[i].BankName;
+                }
+            }
+
+           
+
+        }
+        public void DeleteFiles(string _ext,string _path)
+        {
+
+            DirectoryInfo di = new DirectoryInfo(_path);
             FileInfo[] files = di.GetFiles("*" +_ext)
                      .Where(p => p.Extension == _ext).ToArray();
             foreach (FileInfo file in files)

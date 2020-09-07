@@ -80,7 +80,8 @@ namespace New_AUB.Services
                         var checks = _checks.Where(a => a.ChkType == Scheck).Distinct().ToList();
                         file = File.CreateText(packkingListPath);
                         file.Close();
-
+                     
+                        
                         using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                         {
 
@@ -591,42 +592,224 @@ namespace New_AUB.Services
             checkType.Progressive_Personal = new List<OrderModelRb>();
             checkType.Salinas_Commercial = new List<OrderModelRb>();
             checkType.Salinas_Personal = new List<OrderModelRb>();
+            ZipfileServices zip = new ZipfileServices();
 
             foreach (OrderModelRb _check in _orders)
             {
                 if(_check.BankName == "Aspac_Rural" && _check.ChkType == "A")
                 {
-
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
                     checkType.Aspac_Personal.Add(_check);
-                    DoBlockProcessRB(checkType, _main);
-                }
-                else if (_check.BankName == "Aspac_Rural" && _check.ChkType == "B")
-                {
 
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Aspac_Rural" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
                     checkType.Aspac_Commercial.Add(_check);
                     DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
                 }
-                else if(_check.BankName == "Banko_Mabuhay" && _check.ChkType == "A")
+                if(_check.BankName == "Banko_Mabuhay" && _check.ChkType == "A")
                 {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
                     checkType.Bank_Mabuhay_Personal.Add(_check);
                     DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
                 }
-                else if (_check.BankName == "Banko_Mabuhay" && _check.ChkType == "B")
+                if (_check.BankName == "Banko_Mabuhay" && _check.ChkType == "B")
                 {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
                     checkType.Bank_Mabuhay_Commercial.Add(_check);
                     DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
                 }
-                else if (_check.BankName == "Imus_Rural_Bank" && _check.ChkType == "A")
+                if (_check.BankName == "Imus_Rural_Bank" && _check.ChkType == "A")
                 {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
                     checkType.Imus_Binan_Personal.Add(_check);
                     DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
                 }
-                else if (_check.BankName == "Imus_Rural_Bank" && _check.ChkType == "B")
+                if (_check.BankName == "Imus_Rural_Bank" && _check.ChkType == "B")
                 {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
                     checkType.Imus_Binan_Commercial.Add(_check);
                     DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Masuwerte" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Masuwerte_Personal.Add(_check);
+
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                
+                if (_check.BankName == "Masuwerte" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Masuwerte_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Rural_Bank_of_Angeles" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Angeles_Personal.Add(_check);
+
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
                 }
 
+                if (_check.BankName == "Rural_Bank_of_Angeles" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Angeles_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Rural_Bank_of_Cardona" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Cardona_Personal.Add(_check);
+
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+
+                if (_check.BankName == "Rural_Bank_of_Cardona" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Cardona_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Rural_Bank_of_Dulag" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Dulag_Personal.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+
+                if (_check.BankName == "Rural_Bank_of_Dulag" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Dulag_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Rural_Bank_of_Kawit" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Kawit_Personal.Add(_check);
+
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+
+                if (_check.BankName == "Rural_Bank_of_Kawit" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Kawit_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Rural_Bank_of_Mexico" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Mexico_Personal.Add(_check);
+
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+
+                if (_check.BankName == "Rural_Bank_of_Mexico" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Mexico_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Rural_Bank_of_Porac" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Porac_Personal.Add(_check);
+
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+
+                if (_check.BankName == "Rural_Bank_of_Porac" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Porac_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+                if (_check.BankName == "Rural_Bank_of_Salinas" && _check.ChkType == "A")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Porac_Personal.Add(_check);
+
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
+
+                if (_check.BankName == "Rural_Bank_of_Salinas" && _check.ChkType == "B")
+                {
+                    zip.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + _check.BankName);
+                    checkType.Porac_Commercial.Add(_check);
+                    DoBlockProcessRB(checkType, _main);
+                    PackingTextRB(checkType, _main);
+                    SaveToPackingDBFRb(checkType, _main.batchfile, _main);
+                    PrinterFileRb(checkType, _main);
+                }
                 //  DoBlockProcessRB(checkType,_main);
             }
             return _orders;
@@ -634,21 +817,38 @@ namespace New_AUB.Services
         }
         public void DoBlockProcessRB(TypeofCheckModel _ordersRB, frmMain _mainForm)
         {
+            DbConServices db = new DbConServices();
+            BranchModelRb rb = new BranchModelRb();
+            Int64 SN = 0;
+            Int64 EN = 0;
             if (_ordersRB.Aspac_Personal.Count > 0)
             {
+
+                for (int f = 0; f < _ordersRB.Aspac_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Aspac_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Aspac_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Aspac_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Aspac_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
                 for (int i = 0; i < _ordersRB.Aspac_Personal.Count; i++)
                 {
-
-
-                    if (_ordersRB.Aspac_Personal[i].ChkType == "A")
-                    {
+                  
+                 
+                  
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Aspac_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
                         // var checks = _checks.Where(a => a.ChkType == _checks[i].ChkType).Distinct().ToList();
                         file = File.CreateText(packkingListPath);
                         file.Close();
-
+                       
                         using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                         {
                             //for (int i = 0; i < check; i++)
@@ -658,25 +858,37 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
                 }
               
             }
             if (_ordersRB.Aspac_Commercial.Count > 0)
             {
+                //for (int f = 0; f < _ordersRB.Aspac_Commercial.Count; f++)
+                //{
+                  //  db.GetBranchByBRSTNRb(rb, _ordersRB.Aspac_Commercial[f].BRSTN);
+                  //  SN = rb.LastNo + 1;
+                    for (int a = 0; a < _ordersRB.Aspac_Commercial.Count; a++)
+                    {
+
+                        _ordersRB.Aspac_Commercial[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Aspac_Commercial[a].PcsPerbook) - 1;
+                        _ordersRB.Aspac_Commercial[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+               // }
                 for (int i = 0; i < _ordersRB.Aspac_Commercial.Count; i++)
                 {
 
-
-                    if (_ordersRB.Aspac_Commercial[i].ChkType == "B")
-                    {
+                 
+                   
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Aspac_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
                         // var checks = _checks.Where(a => a.ChkType == _checks[i].ChkType).Distinct().ToList();
                         file = File.CreateText(packkingListPath);
                         file.Close();
-
+                       
                         using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                         {
                             //for (int i = 0; i < check; i++)
@@ -686,53 +898,72 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
                 }
 
             }
-            else if (_ordersRB.Imus_Binan_Personal.Count > 0)
+            if (_ordersRB.Imus_Binan_Personal.Count > 0)
             {
+                for (int f = 0; f < _ordersRB.Imus_Binan_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Imus_Binan_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a < _ordersRB.Imus_Binan_Personal.Count; a++)
+                    {
+
+                        _ordersRB.Imus_Binan_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Imus_Binan_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Imus_Binan_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+
+                }
                 for (int i = 0; i < _ordersRB.Imus_Binan_Personal.Count; i++)
                 {
+                  
 
-
-                    if (_ordersRB.Imus_Binan_Personal[i].ChkType == "A")
-                    {
-                        string packkingListPath = outputFolder + "\\" + _ordersRB.Imus_Binan_Personal[i].BankName + "\\BlockP.txt";
+                    string packkingListPath = outputFolder + "\\" + _ordersRB.Imus_Binan_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
-                        // var checks = _checks.Where(a => a.ChkType == _checks[i].ChkType).Distinct().ToList();
+                        
                         file = File.CreateText(packkingListPath);
                         file.Close();
-
+                       
                         using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                         {
                             //for (int i = 0; i < check; i++)
                             //{
-
+                           
                             string output = OutputServices.ConvertToBlockTextRB(_ordersRB.Imus_Binan_Personal, "PERSONAL", _mainForm.batchfile, _mainForm.deliveryDate, frmLogIn.userName);
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
                     
                 }
             }
-            else if (_ordersRB.Imus_Binan_Commercial.Count > 0)
+            if (_ordersRB.Imus_Binan_Commercial.Count > 0)
             {
+                
+                    for (int a = 0; a < _ordersRB.Imus_Binan_Commercial.Count; a++)
+                    {
+
+                        _ordersRB.Imus_Binan_Commercial[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Imus_Binan_Commercial[a].PcsPerbook) - 1;
+                        _ordersRB.Imus_Binan_Commercial[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+             
                 for (int i = 0; i < _ordersRB.Imus_Binan_Commercial.Count; i++)
                 {
-
-
-                    if (_ordersRB.Imus_Binan_Commercial[i].ChkType == "B")
-                    {
+                 
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Imus_Binan_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
                         // var checks = _checks.Where(a => a.ChkType == _checks[i].ChkType).Distinct().ToList();
                         file = File.CreateText(packkingListPath);
                         file.Close();
-
+                       
                         using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                         {
                             //for (int i = 0; i < check; i++)
@@ -742,18 +973,31 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Angeles_Personal.Count > 0)
+            if (_ordersRB.Angeles_Personal.Count > 0)
             {
+                for (int f = 0; f < _ordersRB.Angeles_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Angeles_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Angeles_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Angeles_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Angeles_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
+
                 for (int i = 0; i < _ordersRB.Angeles_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Angeles_Personal[i].ChkType == "A")
-                    {
+                    
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Angeles_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -770,18 +1014,30 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Angeles_Commercial.Count > 0)
+            if (_ordersRB.Angeles_Commercial.Count > 0)
             {
+                
+                  //  db.GetBranchByBRSTNRb(rb, _ordersRB.Angeles_Commercial[f].BRSTN);
+                  //  SN = rb.LastNo + 1;
+                    for (int a = 0; a < _ordersRB.Angeles_Commercial.Count; a++)
+                    {
+
+                        _ordersRB.Angeles_Commercial[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Angeles_Commercial[a].PcsPerbook) - 1;
+                        _ordersRB.Angeles_Commercial[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                
+
                 for (int i = 0; i < _ordersRB.Angeles_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Angeles_Commercial[i].ChkType == "B")
-                    {
+                    
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Angeles_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -798,18 +1054,31 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Bank_Mabuhay_Personal.Count > 0)
+            if (_ordersRB.Bank_Mabuhay_Personal.Count > 0)
             {
+
+                for (int f = 0; f < _ordersRB.Bank_Mabuhay_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Bank_Mabuhay_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Bank_Mabuhay_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Bank_Mabuhay_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Bank_Mabuhay_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
                 for (int i = 0; i < _ordersRB.Bank_Mabuhay_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Bank_Mabuhay_Personal[i].ChkType == "A")
-                    {
+                   
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Bank_Mabuhay_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -826,18 +1095,25 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Bank_Mabuhay_Commercial.Count > 0)
+            if (_ordersRB.Bank_Mabuhay_Commercial.Count > 0)
             {
+                for (int a = 0; a < _ordersRB.Bank_Mabuhay_Commercial.Count; a++)
+                {
+
+                    _ordersRB.Bank_Mabuhay_Commercial[a].StartingSerial = SN.ToString();
+                    EN = SN + Int64.Parse(_ordersRB.Bank_Mabuhay_Commercial[a].PcsPerbook) - 1;
+                    _ordersRB.Bank_Mabuhay_Commercial[a].EndingSerial = EN.ToString();
+                    SN = EN + 1;
+                }
                 for (int i = 0; i < _ordersRB.Bank_Mabuhay_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Bank_Mabuhay_Commercial[i].ChkType == "B")
-                    {
+                   
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Bank_Mabuhay_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -854,18 +1130,30 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Cardona_Personal.Count > 0)
+            if (_ordersRB.Cardona_Personal.Count > 0)
             {
+                for (int f = 0; f < _ordersRB.Cardona_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Cardona_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Cardona_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Cardona_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Cardona_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
                 for (int i = 0; i < _ordersRB.Cardona_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Cardona_Personal[i].ChkType == "A")
-                    {
+                  
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Cardona_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -882,18 +1170,25 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Cardona_Commercial.Count > 0)
+            if (_ordersRB.Cardona_Commercial.Count > 0)
             {
+                for (int a = 0; a < _ordersRB.Cardona_Commercial.Count; a++)
+                {
+
+                    _ordersRB.Cardona_Commercial[a].StartingSerial = SN.ToString();
+                    EN = SN + Int64.Parse(_ordersRB.Cardona_Commercial[a].PcsPerbook) - 1;
+                    _ordersRB.Cardona_Commercial[a].EndingSerial = EN.ToString();
+                    SN = EN + 1;
+                }
                 for (int i = 0; i < _ordersRB.Cardona_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Cardona_Commercial[i].ChkType == "B")
-                    {
+                   
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Cardona_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -910,18 +1205,30 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Dulag_Personal.Count > 0)
+            if (_ordersRB.Dulag_Personal.Count > 0)
             {
+                for (int f = 0; f < _ordersRB.Dulag_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Dulag_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Dulag_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Dulag_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Dulag_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
                 for (int i = 0; i < _ordersRB.Dulag_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Dulag_Personal[i].ChkType == "A")
-                    {
+                  
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Dulag_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -938,18 +1245,25 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Dulag_Commercial.Count > 0)
+            if (_ordersRB.Dulag_Commercial.Count > 0)
             {
+                for (int a = 0; a < _ordersRB.Dulag_Commercial.Count; a++)
+                {
+
+                    _ordersRB.Dulag_Commercial[a].StartingSerial = SN.ToString();
+                    EN = SN + Int64.Parse(_ordersRB.Dulag_Commercial[a].PcsPerbook) - 1;
+                    _ordersRB.Dulag_Commercial[a].EndingSerial = EN.ToString();
+                    SN = EN + 1;
+                }
                 for (int i = 0; i < _ordersRB.Dulag_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Dulag_Commercial[i].ChkType == "B")
-                    {
+                   
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Dulag_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -966,18 +1280,29 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Entreprenuer_Personal.Count > 0)
+            if (_ordersRB.Entreprenuer_Personal.Count > 0)
             {
+                for (int f = 0; f < _ordersRB.Entreprenuer_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Entreprenuer_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Entreprenuer_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Entreprenuer_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Entreprenuer_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
                 for (int i = 0; i < _ordersRB.Entreprenuer_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Entreprenuer_Personal[i].ChkType == "A")
-                    {
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Entreprenuer_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -994,18 +1319,25 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Entreprenuer_Commercial.Count > 0)
+            if (_ordersRB.Entreprenuer_Commercial.Count > 0)
             {
+                for (int a = 0; a < _ordersRB.Entreprenuer_Commercial.Count; a++)
+                {
+
+                    _ordersRB.Entreprenuer_Personal[a].StartingSerial = SN.ToString();
+                    EN = SN + Int64.Parse(_ordersRB.Entreprenuer_Personal[a].PcsPerbook) - 1;
+                    _ordersRB.Entreprenuer_Personal[a].EndingSerial = EN.ToString();
+                    SN = EN + 1;
+                }
                 for (int i = 0; i < _ordersRB.Entreprenuer_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Entreprenuer_Commercial[i].ChkType == "B")
-                    {
+                    
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Entreprenuer_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -1022,18 +1354,30 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Fair_Personal.Count > 0)
+            if (_ordersRB.Fair_Personal.Count > 0)
             {
+                for (int f = 0; f < _ordersRB.Fair_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Fair_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Fair_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Fair_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Fair_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
                 for (int i = 0; i < _ordersRB.Fair_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Fair_Personal[i].ChkType == "A")
-                    {
+                    
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Fair_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -1050,18 +1394,25 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Fair_Commercial.Count > 0)
+            if (_ordersRB.Fair_Commercial.Count > 0)
             {
+                for (int a = 0; a < _ordersRB.Fair_Commercial.Count; a++)
+                {
+
+                    _ordersRB.Fair_Commercial[a].StartingSerial = SN.ToString();
+                    EN = SN + Int64.Parse(_ordersRB.Fair_Commercial[a].PcsPerbook) - 1;
+                    _ordersRB.Fair_Commercial[a].EndingSerial = EN.ToString();
+                    SN = EN + 1;
+                }
                 for (int i = 0; i < _ordersRB.Fair_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Fair_Commercial[i].ChkType == "B")
-                    {
+                   
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Fair_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -1078,18 +1429,30 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Kawit_Personal.Count > 0)
+            if (_ordersRB.Kawit_Personal.Count > 0)
             {
+                for (int f = 0; f < _ordersRB.Kawit_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Kawit_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Kawit_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Kawit_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Kawit_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
                 for (int i = 0; i < _ordersRB.Kawit_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Kawit_Personal[i].ChkType == "A")
-                    {
+      
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Kawit_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -1106,18 +1469,25 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Kawit_Commercial.Count > 0)
+            if (_ordersRB.Kawit_Commercial.Count > 0)
             {
+                for (int a = 0; a < _ordersRB.Kawit_Commercial.Count; a++)
+                {
+
+                    _ordersRB.Kawit_Commercial[a].StartingSerial = SN.ToString();
+                    EN = SN + Int64.Parse(_ordersRB.Kawit_Commercial[a].PcsPerbook) - 1;
+                    _ordersRB.Kawit_Commercial[a].EndingSerial = EN.ToString();
+                    SN = EN + 1;
+                }
                 for (int i = 0; i < _ordersRB.Kawit_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Kawit_Commercial[i].ChkType == "B")
-                    {
+                    
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Kawit_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -1134,18 +1504,32 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Masuwerte_Personal.Count > 0)
+            if (_ordersRB.Masuwerte_Personal.Count > 0)
             {
+
+                for (int f = 0; f < _ordersRB.Masuwerte_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _ordersRB.Masuwerte_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _ordersRB.Masuwerte_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Masuwerte_Personal[a].PcsPerbook) - 1;
+                        _ordersRB.Masuwerte_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
+
                 for (int i = 0; i < _ordersRB.Masuwerte_Personal.Count; i++)
                 {
 
 
-                    if (_ordersRB.Masuwerte_Personal[i].ChkType == "A")
-                    {
+                    
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Masuwerte_Personal[i].BankName + "\\BlockP.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -1162,18 +1546,28 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
-            else if (_ordersRB.Masuwerte_Commercial.Count > 0)
+            if (_ordersRB.Masuwerte_Commercial.Count > 0)
             {
+               
+                    for (int a = 0; a < _ordersRB.Masuwerte_Commercial.Count; a++)
+                    {
+
+                        _ordersRB.Masuwerte_Commercial[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_ordersRB.Masuwerte_Commercial[a].PcsPerbook) - 1;
+                        _ordersRB.Masuwerte_Commercial[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                
+
                 for (int i = 0; i < _ordersRB.Masuwerte_Commercial.Count; i++)
                 {
 
 
-                    if (_ordersRB.Masuwerte_Commercial[i].ChkType == "B")
-                    {
+                    
                         string packkingListPath = outputFolder + "\\" + _ordersRB.Masuwerte_Commercial[i].BankName + "\\BlockC.txt";
                         if (File.Exists(packkingListPath))
                             File.Delete(packkingListPath);
@@ -1190,7 +1584,7 @@ namespace New_AUB.Services
                             //  }
                             file.WriteLine(output);
                         }
-                    }
+                    
 
                 }
             }
@@ -1247,83 +1641,658 @@ namespace New_AUB.Services
             //    }
             //}
         }
-        public void PackingTextRB(List<OrderModelRb> _checksModel, frmMain _mainForm,string _outputFolder)
+        public void PackingTextRB(TypeofCheckModel _checksModel, frmMain _mainForm)
         {
 
             StreamWriter file;
             DbConServices db = new DbConServices();
+            BranchModelRb rb = new BranchModelRb();
+            Int64 SN = 0;
+            Int64 EN = 0;
             //  db.GetAllData(_checksModel, _mainForm._batchfile);
-            var listofcheck = _checksModel.Select(e => e.ChkType).ToList();
+         //   var listofcheck = _checksModel.Select(e => e.).ToList();
 
-            foreach (string Scheck in listofcheck)
+            if(_checksModel.Angeles_Personal.Count >0)
             {
-                if (Scheck == "A")
+                for (int f = 0; f < _checksModel.Angeles_Personal.Count; f++)
+                {
+                    db.GetBranchByBRSTNRb(rb, _checksModel.Angeles_Personal[f].BRSTN);
+                    SN = rb.LastNo + 1;
+                    for (int a = 0; a <= f; a++)
+                    {
+
+                        _checksModel.Angeles_Personal[a].StartingSerial = SN.ToString();
+                        EN = SN + Int64.Parse(_checksModel.Angeles_Personal[a].PcsPerbook) - 1;
+                        _checksModel.Angeles_Personal[a].EndingSerial = EN.ToString();
+                        SN = EN + 1;
+                    }
+                }
+                for (int i = 0; i < _checksModel.Angeles_Personal.Count; i++)
                 {
 
-                    string packkingListPath = outputFolder + "\\"+ _outputFolder+"\\PackingP.txt";
+                
+
+                    string packkingListPath = outputFolder + "\\"+ _checksModel.Angeles_Personal[0].BankName+ "\\PackingP.txt";
                     if (File.Exists(packkingListPath))
                         File.Delete(packkingListPath);
-                    var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                   // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
                     file = File.CreateText(packkingListPath);
                     file.Close();
 
                     using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                     {
-                        string output = OutputServices.ConvertToPackingListRb(checks, "PERSONAL", _mainForm);
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Angeles_Personal, "PERSONAL", _mainForm);
 
                         file.WriteLine(output);
                     }
 
                 }
             }
-            foreach (string Scheck in listofcheck)
+
+            if (_checksModel.Angeles_Commercial.Count > 0)
             {
-                if (Scheck == "B")
+                for (int a = 0; a < _checksModel.Angeles_Commercial.Count; a++)
                 {
 
-                    string packkingListPath = outputFolder + "\\"+ _outputFolder+"\\PackingC.txt";
+                    _checksModel.Angeles_Personal[a].StartingSerial = SN.ToString();
+                    EN = SN + Int64.Parse(_checksModel.Angeles_Personal[a].PcsPerbook) - 1;
+                    _checksModel.Angeles_Personal[a].EndingSerial = EN.ToString();
+                    SN = EN + 1;
+                }
+                for (int i = 0; i < _checksModel.Angeles_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Angeles_Commercial[0].BankName + "\\PackingP.txt";
                     if (File.Exists(packkingListPath))
                         File.Delete(packkingListPath);
-                    var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
                     file = File.CreateText(packkingListPath);
                     file.Close();
 
                     using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
                     {
-                        string output = OutputServices.ConvertToPackingListRb(checks, "COMMERCIAL", _mainForm);
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Angeles_Commercial, "COMMERCIAL", _mainForm);
 
                         file.WriteLine(output);
                     }
 
                 }
             }
+            if (_checksModel.Aspac_Personal.Count > 0)
+            {
+              for (int i = 0; i < _checksModel.Aspac_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Aspac_Personal[0].BankName + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Aspac_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Aspac_Commercial.Count > 0)
+            {
+               
+                for (int i = 0; i < _checksModel.Aspac_Commercial.Count; i++)
+                {
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Aspac_Commercial[0].BankName + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Aspac_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Bank_Mabuhay_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Bank_Mabuhay_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Bank_Mabuhay_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Bank_Mabuhay_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Bank_Mabuhay_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Bank_Mabuhay_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Cardona_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Cardona_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Cardona_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Cardona_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Cardona_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Cardona_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Dulag_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Dulag_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Dulag_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Dulag_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Dulag_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Dulag_Commercial[0].BankName + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Dulag_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Entreprenuer_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Entreprenuer_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Entreprenuer_Personal[0].BankName + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Entreprenuer_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Entreprenuer_Commercial.Count > 0)
+            {
+
+                for (int i = 0; i < _checksModel.Entreprenuer_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Entreprenuer_Commercial[0].BankName + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Entreprenuer_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+
+            }
+            if (_checksModel.Imus_Binan_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Imus_Binan_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Imus_Binan_Personal[0].BankName + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Imus_Binan_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Imus_Binan_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Imus_Binan_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + _checksModel.Imus_Binan_Commercial[0].BankName + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Imus_Binan_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Kawit_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Kawit_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Kawit_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Kawit_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Kawit_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Kawit_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Masuwerte_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Masuwerte_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Masuwerte_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Masuwerte_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Masuwerte_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Masuwerte_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Mexico_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Mexico_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Mexico_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Mexico_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Mexico_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Mexico_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Porac_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Porac_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Porac_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Porac_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Porac_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Porac_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Salinas_Personal.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Salinas_Personal.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingP.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Salinas_Personal, "PERSONAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+            if (_checksModel.Salinas_Commercial.Count > 0)
+            {
+                for (int i = 0; i < _checksModel.Salinas_Commercial.Count; i++)
+                {
+
+
+
+                    string packkingListPath = outputFolder + "\\" + frmMain.outputFolder + "\\PackingC.txt";
+                    if (File.Exists(packkingListPath))
+                        File.Delete(packkingListPath);
+                    // var checks = _checksModel.Where(a => a.ChkType == Scheck).Distinct().ToList();
+                    file = File.CreateText(packkingListPath);
+                    file.Close();
+
+                    using (file = new StreamWriter(File.Open(packkingListPath, FileMode.Append)))
+                    {
+                        string output = OutputServices.ConvertToPackingListRb(_checksModel.Salinas_Commercial, "COMMERCIAL", _mainForm);
+
+                        file.WriteLine(output);
+                    }
+
+                }
+            }
+           
         }
-        public void SaveToPackingDBFRb(List<OrderModelRb> _checks, string _batchNumber, frmMain _mainForm,string _outputFolder)
+        public void SaveToPackingDBFRb(TypeofCheckModel _checks, string _batchNumber, frmMain _mainForm)
         {
             string dbConnection;
             string tempCheckType = "";
             int blockNo = 0, blockCounter = 0;
             DbConServices db = new DbConServices();
             //   db.GetAllData(_checks, _mainForm._batchfile);
-
-            var listofchecks = _checks.Select(e => e.ChkType).Distinct().ToList();
-
-            foreach (string checktype in listofchecks)
+            
+            //   var listofchecks = _checks.Select(e => e.ChkType).Distinct().ToList();
+            if (_checks.Aspac_Personal.Count > 0)
             {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Aspac_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                //foreach (string checktype in listofchecks)
+                //{
+                //for (int i = 0; i < _checks.Aspac_Personal.Count; i++)
+                //{
 
-                if (checktype == "A" || checktype == "B")
+
+
+                //if (checktype == "A" || checktype == "B")
+                //{
+
+
+                //Check if packing file exists
+                //if (!File.Exists(_filepath))
+                //{
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Aspac_Personal)
                 {
-                    dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\"+_outputFolder+"\\Packing.dbf" + "; Mode=ReadWrite;";
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
 
-                    //Check if packing file exists
-                    //if (!File.Exists(_filepath))
-                    //{
-                    OleDbConnection oConnect = new OleDbConnection(dbConnection);
-                    OleDbCommand oCommand;
-                    oConnect.Open();
-                    oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
                     oCommand.ExecuteNonQuery();
-                    foreach (var check in _checks)
+                }
+                oConnect.Close();
+            }
+             if (  _checks.Aspac_Commercial.Count > 0)
+             {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Aspac_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                    OleDbCommand oCommand2;
+                    oConnect2.Open();
+                    foreach (var check in _checks.Aspac_Commercial)
                     {
                         if (tempCheckType != check.ChkType)
                             blockNo = 1;
@@ -1343,77 +2312,1297 @@ namespace New_AUB.Services
                          "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
                         check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
 
-                        oCommand = new OleDbCommand(sql, oConnect);
+                        oCommand2 = new OleDbCommand(sql, oConnect2);
 
-                        oCommand.ExecuteNonQuery();
+                        oCommand2.ExecuteNonQuery();
                     }
-                    oConnect.Close();
+                    oConnect2.Close();
+                    //}
+                
+            }
+            if (_checks.Angeles_Personal.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Angeles_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                //foreach (string checktype in listofchecks)
+                //{
+                //for (int i = 0; i < _checks.Aspac_Personal.Count; i++)
+                //{
+
+
+
+                //if (checktype == "A" || checktype == "B")
+                //{
+
+
+                //Check if packing file exists
+                //if (!File.Exists(_filepath))
+                //{
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Angeles_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
                 }
+            
+                oConnect.Close();
+
+            }
+            if(_checks.Angeles_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Angeles_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Angeles_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Bank_Mabuhay_Personal.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Bank_Mabuhay_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                //foreach (string checktype in listofchecks)
+                //{
+                //for (int i = 0; i < _checks.Aspac_Personal.Count; i++)
+                //{
+
+
+
+                //if (checktype == "A" || checktype == "B")
+                //{
+
+
+                //Check if packing file exists
+                //if (!File.Exists(_filepath))
+                //{
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Bank_Mabuhay_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if(_checks.Bank_Mabuhay_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Bank_Mabuhay_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Bank_Mabuhay_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Cardona_Personal.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Cardona_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+               
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Cardona_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if (_checks.Cardona_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Cardona_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Cardona_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Dulag_Personal.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Dulag_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Dulag_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if(_checks.Dulag_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Dulag_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Dulag_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Entreprenuer_Personal.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Entreprenuer_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Entreprenuer_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if(_checks.Entreprenuer_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Entreprenuer_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Entreprenuer_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Imus_Binan_Personal.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Imus_Binan_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Imus_Binan_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if (_checks.Imus_Binan_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Imus_Binan_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Imus_Binan_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Kawit_Personal.Count > 0)
+            {
+             dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Kawit_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Kawit_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if (_checks.Kawit_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Kawit_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Kawit_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Masuwerte_Personal.Count > 0)
+            {
+              dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Masuwerte_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Masuwerte_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if(_checks.Masuwerte_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Masuwerte_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Masuwerte_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Mexico_Personal.Count > 0)
+            {
+             dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Mexico_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Mexico_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if(_checks.Mexico_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Mexico_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Mexico_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Porac_Personal.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Porac_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Porac_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if(_checks.Porac_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Porac_Commercial[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Porac_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
+            }
+            if (_checks.Salinas_Personal.Count > 0)
+            {
+              dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Salinas_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand;
+                oConnect.Open();
+                oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                oCommand.ExecuteNonQuery();
+                foreach (var check in _checks.Salinas_Personal)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand = new OleDbCommand(sql, oConnect);
+
+                    oCommand.ExecuteNonQuery();
+                }
+                oConnect.Close();
+            }
+            if(_checks.Salinas_Commercial.Count > 0)
+            {
+                dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _checks.Salinas_Personal[0].BankName + "\\Packing.dbf" + "; Mode=ReadWrite;";
+                OleDbConnection oConnect2 = new OleDbConnection(dbConnection);
+                OleDbCommand oCommand2;
+                oConnect2.Open();
+                foreach (var check in _checks.Salinas_Commercial)
+                {
+                    if (tempCheckType != check.ChkType)
+                        blockNo = 1;
+
+                    tempCheckType = check.ChkType;
+
+                    if (blockCounter < 4)
+                        blockCounter++;
+                    else
+                    {
+                        blockCounter = 1;
+                        blockNo++;
+                    }
+
+                    string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                     "NO_BKS, CK_NO_B, CK_NO_E, DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                     "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                    check.StartingSerial + "','" + check.EndingSerial + "','" + check.Company + "','" + check.Company + "')";
+
+                    oCommand2 = new OleDbCommand(sql, oConnect2);
+
+                    oCommand2.ExecuteNonQuery();
+                }
+                oConnect2.Close();
+                //}
+
             }
         }
-        public void PrinterFileRb(List<OrderModelRb> _checkModel, frmMain _mainForm, string _outputFolder)
+        public void PrinterFileRb(TypeofCheckModel _checkModel, frmMain _mainForm)
         {
 
             // DbConServices db = new DbConServices();
             // db.GetAllData(_checkModel, _mainForm._batchfile);
             StreamWriter file;
 
-            var listofchecks = _checkModel.Select(e => e.ChkType).Distinct().ToList();
-
-            foreach (string checktype in listofchecks)
+            /// var listofchecks = _checkModel.Select(e => e.ChkType).Distinct().ToList();
+            if (_checkModel.Angeles_Personal.Count > 0)
             {
-                if (checktype == "A")
+                //foreach (string checktype in _checkModel.Angeles_Personal)
+                //{
+                //    if (checktype == "A")
+                //    {
+                //foreach(var check in _checkModel.Angeles_Personal)
+                //{ 
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Angeles_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+                // var check = _checkModel.Where(e => e.ChkType == checktype).ToList();
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                //for (int a = 0; a < check.Count; a++)
+                //{
+
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
                 {
-                    string printerFilePathA = Application.StartupPath + "\\Output\\"+ _outputFolder+"\\AUB" + /*_mainForm.batchfile.Substring(0, 4)*/  "P.txt";
-                    var check = _checkModel.Where(e => e.ChkType == checktype).ToList();
-                    if (File.Exists(printerFilePathA))
-                        File.Delete(printerFilePathA);
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Angeles_Personal);
 
-                    file = File.CreateText(printerFilePathA);
-                    file.Close();
+                    file.WriteLine(output);
+                }
+                //}
+                //  ZipFileServices.CopyPrinterFile(checktype, _mainForm);
+                // ZipFileServices.CopyPackingDBF(checktype, _mainForm);
+            }
 
-                    //for (int a = 0; a < check.Count; a++)
-                    //{
+            if(_checkModel.Angeles_Commercial.Count >0)
+            { 
+                //foreach (string checktype in listofchecks)
+                //{
+                //    if (checktype == "B")
+                //    {
+                        string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Angeles_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+                    //    var check = _checkModel.Where(e => e.ChkType == checktype).ToList();
+                        if (File.Exists(printerFilePath))
+                            File.Delete(printerFilePath);
+
+                        file = File.CreateText(printerFilePath);
+                        file.Close();
+                        //for (int a = 0; a < check.Count; a++)
+                        //{
 
 
-                    using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
-                    {
-                        string output = OutputServices.ConvertToPrinterFileRB(check);
+                        using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                        {
+                            string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Angeles_Commercial);
 
-                        file.WriteLine(output);
-                    }
-                    //}
-                    //  ZipFileServices.CopyPrinterFile(checktype, _mainForm);
-                    // ZipFileServices.CopyPackingDBF(checktype, _mainForm);
+                            file.WriteLine(output);
+                        }
+           
+            }
+            if (_checkModel.Aspac_Personal.Count > 0)
+            {
+               
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Aspac_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+                
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+              
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Aspac_Personal);
+
+                    file.WriteLine(output);
+                }
+               
+            }
+
+            if (_checkModel.Aspac_Commercial.Count > 0)
+            {
+               
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Aspac_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+               
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+              
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Aspac_Commercial);
+
+                    file.WriteLine(output);
                 }
 
             }
-            foreach (string checktype in listofchecks)
+            if (_checkModel.Bank_Mabuhay_Personal.Count > 0)
             {
-                if (checktype == "B")
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Bank_Mabuhay_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
                 {
-                    string printerFilePath = Application.StartupPath + "\\Output\\"+ _outputFolder+"\\AUB" /*+ _mainForm.batchfile.Substring(0, 4)*/ + "C.txt";
-                    var check = _checkModel.Where(e => e.ChkType == checktype).ToList();
-                    if (File.Exists(printerFilePath))
-                        File.Delete(printerFilePath);
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Bank_Mabuhay_Personal);
 
-                    file = File.CreateText(printerFilePath);
-                    file.Close();
-                    //for (int a = 0; a < check.Count; a++)
-                    //{
-
-                   
-                    using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
-                    {
-                        string output = OutputServices.ConvertToPrinterFileRB(check);
-
-                        file.WriteLine(output);
-                    }
-                    //}
-                    // ZipFileServices.CopyPrinterFile(checktype, _mainForm);
-                    //ZipFileServices.CopyPackingDBF(checktype, _mainForm);
+                    file.WriteLine(output);
                 }
+
             }
+
+            if (_checkModel.Bank_Mabuhay_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Bank_Mabuhay_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Bank_Mabuhay_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Cardona_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Cardona_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Cardona_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Cardona_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Cardona_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Cardona_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Dulag_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Dulag_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Dulag_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Dulag_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Dulag_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Dulag_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Entreprenuer_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Entreprenuer_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Entreprenuer_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Entreprenuer_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Entreprenuer_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Entreprenuer_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Imus_Binan_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Imus_Binan_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Imus_Binan_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Imus_Binan_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Imus_Binan_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Imus_Binan_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Kawit_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Kawit_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Kawit_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Kawit_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Kawit_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Kawit_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Masuwerte_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Masuwerte_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Masuwerte_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Masuwerte_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Masuwerte_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Masuwerte_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Mexico_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Mexico_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Mexico_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Mexico_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Mexico_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Mexico_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Porac_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Porac_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Porac_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Porac_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Porac_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Porac_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+            if (_checkModel.Salinas_Personal.Count > 0)
+            {
+
+                string printerFilePathA = Application.StartupPath + "\\Output\\" + _checkModel.Salinas_Personal[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "P.txt";
+
+                if (File.Exists(printerFilePathA))
+                    File.Delete(printerFilePathA);
+
+                file = File.CreateText(printerFilePathA);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePathA, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Salinas_Personal);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
+            if (_checkModel.Salinas_Commercial.Count > 0)
+            {
+
+                string printerFilePath = Application.StartupPath + "\\Output\\" + _checkModel.Salinas_Commercial[0].BankName + "\\AUB" + _mainForm.batchfile.Substring(0, 4) + "C.txt";
+
+                if (File.Exists(printerFilePath))
+                    File.Delete(printerFilePath);
+
+                file = File.CreateText(printerFilePath);
+                file.Close();
+
+                using (file = new StreamWriter(File.Open(printerFilePath, FileMode.Append)))
+                {
+                    string output = OutputServices.ConvertToPrinterFileRB(_checkModel.Salinas_Commercial);
+
+                    file.WriteLine(output);
+                }
+
+            }
+
         }
        //public void WriteOrderFile(List<OrderModel> _order)
        // {

@@ -28,6 +28,7 @@ namespace New_AUB
         public static string batch = "";
         Int64 startsSN = 0;
         Int64 endSN = 0;
+        public static string _fileName = "";
         public frmMain()
         {
 
@@ -403,117 +404,191 @@ namespace New_AUB
                                         int rowCount = xlRange.Rows.Count;
                                         int colCount = xlRange.Columns.Count;
                                         string SheetName = xlWorksheet.Name.ToUpper();
-
-
+                                       // int rowCounter = 0;
+                                        //string rbBrstn;
+                                        //for (int d = 0; d < rowCount - 4; d++)
+                                        //{
+                                        //  BranchModelRb bRb = new BranchModelRb();
                                         //  int row = 5;
-                                       
+                                        //  con.GetBranchByBRSTNRb(branchRb);
+                                        //List<BranchModelRb> rbBranchList = new List<BranchModelRb>();
+                                        //for (int z = 0; z < branchRb.Count; z++)
+                                        //{
+                                        //    rbBranchList.Add(branchRb[z]);
+                                        //}
+                                        //rbBrstn = xlRange.Cells[rowCounter + 5, 8].Text;
+
                                         for (int c = 0; c < rowCount - 4; c++)
                                         {
+                                            //    while (rbBranchList[rowCounter].BRSTN != rbBrstn)
+                                            //    {
+                                            //        startsSN = rbBranchList[rowCounter].LastNo + 1;
 
-                                            var listofbranch = branchRb.FirstOrDefault(r => r.BRSTN == xlRange.Cells[c + 5, 8].Text);
-                                            startsSN = listofbranch.LastNo + 1;
-                                    
-                                           
+                                            //        rowCounter++;
+                                            //    }
+                                            string accountname = "";
+                                             
+                                            //startsSN = listofbranch.LastNo + 1;
                                             //check.StartingSerial = startsSN.ToString();
-                                            Int64 qty = Int64.Parse(xlRange.Cells[c + 5, 1].Text);
+                                            int qty = int.Parse(xlRange.Cells[c + 5, 1].Text);
                                             for (int a = 0; a < qty; a++)// adding to List and multiply by quantity order
                                             {
                                                 OrderModelRb check = new OrderModelRb();
+                                             
                                                 check.BRSTN = xlRange.Cells[c + 5, 8].Text;
-                                                check.ChkName = xlRange.Cells[c + 5, 3].Text;
-                                                check.BankName = xlRange.Cells[c + 5, 5].Text;
-                                                check.AccountNo = xlRange.Cells[c + 5, 7].Text;
-                                                check.AccountName = xlRange.Cells[c + 5, 10].Text;
-                                                check.AccountNoRb = xlRange.Cells[c + 5, 9].Text;
-                                                check.Quantity =1;
+                                                    check.ChkName = xlRange.Cells[c + 5, 3].Text;
+                                                    check.BankName = xlRange.Cells[c + 5, 5].Text;
+                                                    check.AccountNo = xlRange.Cells[c + 5, 7].Text;
+                                                    accountname = xlRange.Cells[c + 5, 10].Text;
+                                                    check.AccountNoRb = xlRange.Cells[c + 5, 9].Text;
+                                                 accountname.Trim();
+                                                //  check.Quantity = Int64.Parse(xlRange.Cells[rowCounter + 5, 1].Text);
+                                             
+                                                if (accountname.Length > 30)
+                                                {
+                                                    int LoopCount5 = accountname.Length;
+                                                    // For OR
+                                                    while (LoopCount5 > 0)
+                                                    {
+                                                        if (check.AccountName == "" && check.AccountName2 == "" && LoopCount5 < accountname.Length - 5)
+                                                        {
 
-                                             if (check.BankName.Contains("BINAN"))
-                                             {
-                                                check.BankName = "Imus_Rural_Bank";
-                                                outputFolder = "Imus_Rural_Bank";
-                                             }
-                                             else if (check.BankName.Contains("ANGELES"))
-                                             {
-                                                check.BankName = "Rural_Bank_of_Angeles";
-                                                outputFolder = "Rural_Bank_of_Angeles";
-                                             }
-                                             else if (check.BankName.Contains("CARDONA"))
-                                             {
-                                                check.BankName = "Rural_Bank_of_Cardona";
-                                                outputFolder = "Rural_Bank_of_Cardona";
-                                             }
-                                             else if (check.BankName.Contains("DULAG"))
-                                             {
-                                                check.BankName = "Rural_Bank_of_Dulag";
-                                                outputFolder = "Rural_Bank_of_Dulag";
-                                             }
-                                             else if (check.BankName.Contains("MABUHAY"))
-                                             {
-                                                check.BankName = "Banko_Mabuhay";
-                                                outputFolder = "Banko_Mabuhay";
-                                             }
-                                             else if (check.BankName.Contains("MASUWERTE"))
-                                             {
-                                                check.BankName = "Masuwerte";
-                                                outputFolder = "Masuwerte";
-                                             }
-                                             else if (check.BankName.Contains("ASPAC"))
-                                             {
-                                                check.BankName = "Aspac_Rural";
-                                                outputFolder = "Aspac_Rural";
-                                             }
-                                             else if (check.BankName.Contains("KAWIT"))
-                                             {
-                                                check.BankName = "Rural_Bank_of_Kawit";
-                                                outputFolder = "Rural_Bank_of_Kawit";
-                                             }
-                                             else if (check.BankName.Contains("MEXICO"))
-                                             {
-                                                check.BankName = "Rural_Bank_of_Mexico";
-                                                outputFolder = "Rural_Bank_of_Mexico";
-                                             }
-                                             else if (check.BankName.Contains("PORAC"))
-                                             {
-                                                check.BankName = "Rural_Bank_of_Porac";
-                                                outputFolder = "Rural_Bank_of_Porac";
-                                             }
-                                             else if (check.BankName.Contains("SALINAS"))
-                                             {
-                                                check.BankName = "Rural_Bank_of_Salinas";
-                                                outputFolder = "Rural_Bank_of_Salinas";
-                                             }
-                                                //check.BranchName = listofbranch.Address1;
-                                                //check.Address2 = listofbranch.Address2;
-                                                //check.Address3 = listofbranch.Address3;
-                                                //check.Address3 = listofbranch.Address4;
-                                                //check.Address3 = listofbranch.Address5;
-                                                //check.Address3 = listofbranch.Address6;
+                                                            if (accountname.Substring(LoopCount5, 4) == " Or " || accountname.Substring(LoopCount5, 4) == " or ")
+                                                            {
+                                                                check.AccountName = accountname.Substring(0, LoopCount5 + 3);
+                                                                check.AccountName2 = accountname.Substring(LoopCount5 + 4, accountname.Length - LoopCount5 - 4);
+                                                            }
+                                                        }
+                                                        LoopCount5 = LoopCount5 - 1;
+                                                    }
+                                                    // For OR/&
+                                                    LoopCount5 = accountname.Length;
+                                                    while (LoopCount5 > 0)
+                                                    {
+                                                        if (check.AccountName == "" && check.AccountName2 == "" && LoopCount5 < accountname.Length - 5)
+                                                        {
+
+                                                            if (accountname.Substring(LoopCount5, 4) == "&/OR" || accountname.Substring(LoopCount5, 4) == "&/OR ")
+                                                            {
+                                                                check.AccountName = accountname.Substring(0, LoopCount5 + 4);
+                                                                check.AccountName2 = accountname.Substring(LoopCount5 + 4, accountname.Length - LoopCount5 - 4);
+                                                            }
+                                                        }
+                                                        LoopCount5 = LoopCount5 - 1;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    check.AccountName = accountname;
+                                                    check.AccountName2 = "";
+                                                }
+
+                                                    if (check.BankName.Contains("BINAN"))
+                                                    {
+                                                        check.BankName = "Imus_Rural_Bank";
+                                                        outputFolder = "Imus_Rural_Bank";
+                                                    check.FileName = "Imus_Rural_Bank";
+                                                    }
+                                                    else if (check.BankName.Contains("ANGELES"))
+                                                    {
+                                                        check.BankName = "Rural_Bank_of_Angeles";
+                                                        outputFolder = "Rural_Bank_of_Angeles";
+                                                  
+                                                }
+                                                    else if (check.BankName.Contains("CARDONA"))
+                                                    {
+                                                        check.BankName = "Rural_Bank_of_Cardona";
+                                                        outputFolder = "Rural_Bank_of_Cardona";
+                                                  
+                                                }
+                                                    else if (check.BankName.Contains("DULAG"))
+                                                    {
+                                                        check.BankName = "Rural_Bank_of_Dulag";
+                                                        outputFolder = "Rural_Bank_of_Dulag";
+                                                   
+                                                }
+                                                    else if (check.BankName.Contains("MABUHAY"))
+                                                    {
+                                                        check.BankName = "Banko_Mabuhay";
+                                                        outputFolder = "Banko_Mabuhay";
+                                                 
+                                                }
+                                                    else if (check.BankName.Contains("MASUWERTE"))
+                                                    {
+                                                        check.BankName = "Masuwerte";
+                                                        outputFolder = "Masuwerte";
+                                                   
+                                                }
+                                                    else if (check.BankName.Contains("ASPAC"))
+                                                    {
+                                                        check.BankName = "Aspac_Rural";
+                                                        outputFolder = "Aspac_Rural";
+                                                   
+                                                }
+                                                    else if (check.BankName.Contains("KAWIT"))
+                                                    {
+                                                        check.BankName = "Rural_Bank_of_Kawit";
+                                                        outputFolder = "Rural_Bank_of_Kawit";
+                                                  
+                                                }
+                                                    else if (check.BankName.Contains("MEXICO"))
+                                                    {
+                                                        check.BankName = "Rural_Bank_of_Mexico";
+                                                        outputFolder = "Rural_Bank_of_Mexico";
+                                                  
+                                                }
+                                                    else if (check.BankName.Contains("PORAC"))
+                                                    {
+                                                        check.BankName = "Rural_Bank_of_Porac";
+                                                        outputFolder = "Rural_Bank_of_Porac";
+                                                 
+                                                }
+                                                    else if (check.BankName.Contains("SALINAS"))
+                                                    {
+                                                        check.BankName = "Rural_Bank_of_Salinas";
+                                                        outputFolder = "Rural_Bank_of_Salinas";
+                                                   
+                                                }
+                                                var listofbranch = branchRb.FirstOrDefault(r => r.BRSTN == check.BRSTN);
+                                                check.BranchName =listofbranch.Address1;
+                                                check.Address2 = listofbranch.Address2;
+                                                check.Address3 = listofbranch.Address3;
+                                                check.Address4 = listofbranch.Address4;
+                                                check.Address5 = listofbranch.Address5;
+                                                check.Address6 = listofbranch.Address6;
 
 
-                                                if (check.ChkName.Contains("Personal"))
-                                             {
-                                                check.ChkType = "A";
-                                                check.PcsPerbook = "50";
-                                             }
+                                                    if (check.ChkName.Contains("Personal"))
+                                                    {
+                                                        check.ChkType = "A";
+                                                        check.PcsPerbook = "50";
+                                                    }
 
-                                             else
-                                             {
-                                                check.ChkType = "B";
-                                                check.PcsPerbook = "100";
-                                             }
-                                                check.StartingSerial = startsSN.ToString();
-                                                endSN = startsSN + (Int64.Parse(check.PcsPerbook) - 1);
+                                                    else
+                                                    {
+                                                        check.ChkType = "B";
+                                                        check.PcsPerbook = "100";
+                                                    }
+                                                 //  check.StartingSerial = startsSN.ToString();
+                                                   // endSN = startsSN + (Int64.Parse(check.PcsPerbook) - 1);
 
-                                                check.EndingSerial = endSN.ToString();
+                                                 //  check.EndingSerial = endSN.ToString();
 
-                                                orderListRb.Add(check);
-
-                                                startsSN = endSN + 1;
+                                                    orderListRb.Add(check);
+                                                    //  listofbranch.LastNo = endSN;
+                                                     
+                                                //    rbBranchList[rowCounter].LastNo = endSN;
+                                                 //   startsSN = endSN + 1;
+                                                    //srowCounter = 0;
+                                                //  con.UpdateRefRb(listofbranch);
                                             }
-                                            // row++;
+                                                // row++;
+                                               // rowCounter++;
                                            
-                                        }
-
+                                               
+                                                                           
+                                            }
+                                        //}
                                     }
 
                                 }
@@ -547,7 +622,7 @@ namespace New_AUB
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Int64 endingserial = 0;
-        
+          //  ZipfileServices zip = new ZipfileServices();
            // var listofchecks = orderList.Select(r => r.BRSTN).ToList();
 
             if (orderList != null)
@@ -563,29 +638,51 @@ namespace New_AUB
 
                     con.SavedDatatoDatabase(orderList[i], batchfile);
                 }
+
+                for (int f = 0; f < updateBranch.Count; f++)//Updating Serial
+                {
+                    con.UpdateRef(updateBranch[f]);
+                }
             }
 
             if(orderListRb != null)
             {
+                List<OrderModelRb> listofRb = new List<OrderModelRb>();
                 for (int i = 0; i < orderListRb.Count; i++)
                 {
-                    orderListRb[i].EndingSerial = ((Int64.Parse(orderListRb[i].StartingSerial) + (Int64.Parse(orderListRb[i].PcsPerbook) * orderListRb[i].Quantity)) - 1).ToString();
+                    //startsSN = Int64.Parse(orderListRb[i].StartingSerial);
+                    //for (int a = 0; a < orderListRb[i].Quantity; a++)
+                    //{
+                    //    //     OrderModelRb rb = new OrderModelRb();
+                     
+                    //    if (orderListRb[i].ChkType == "B")
+                    //        endSN = startsSN + 99;
+                    //    else
+                    //        endSN = startsSN + 49;
+
+                       
+                        
+                    //    listofRb.Add(orderListRb[i]);
+                    //    listofRb[i].StartingSerial = startsSN.ToString();
+                    //     listofRb[i].EndingSerial = endSN.ToString();
+                    //    startsSN = endSN + 1;
+                       // orderListRb[i].StartingSerial = (endSN + 1).ToString();
+                   // }
+                 //   orderListRb[i].EndingSerial = ((Int64.Parse(orderListRb[i].StartingSerial) + (Int64.Parse(orderListRb[i].PcsPerbook) * orderListRb[i].Quantity)) - 1).ToString();
 
                 }
+                
                 process.Process(orderListRb,this);
-               // process.PackingTextRB(orderListRb, this);
-               // process.PrinterFileRb(orderListRb, this);
-              //  process.SaveToPackingDBFRb(orderListRb,batchfile, this, outputFolder);
-                for (int i = 0; i < orderListRb.Count; i++)
-                {
 
-                    con.SavedDatatoDatabaseRB(orderListRb[i], batchfile);
-                }
+                //for (int i = 0; i < orderListRb.Count; i++)
+                //{
+                //    con.SavedDatatoDatabaseRB(orderListRb[i], batchfile,deliveryDate);
+                //}
+
+               // orderListRb.Distinct();
+                z.ZipFileRb(frmLogIn.userName, this,orderListRb);
             }
-            for (int f = 0; f < updateBranch.Count; f++)
-            {
-                con.UpdateRef(updateBranch[f]);
-            }
+            
            
          //con.UpdateRef()
            // z.ZipFileS("Elmer", this);

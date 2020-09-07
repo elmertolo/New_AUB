@@ -190,7 +190,7 @@ namespace New_AUB.Services
             }
             return _check;
         }// end of function
-        public OrderModelRb SavedDatatoDatabaseRB(OrderModelRb _check, string _batch)
+        public OrderModelRb SavedDatatoDatabaseRB(OrderModelRb _check, string _batch,DateTime _deliveryDate)
         {
             if (_check.BRSTN == null)
             {
@@ -198,11 +198,11 @@ namespace New_AUB.Services
             }
             else
             {
-                string sql = "INSERT INTO captive_database.aub_history(Date,Time,DeliveryDate,ChkType,ChequeName,BRSTN,AccountNo,Name1,Name2,Address1,BranchCode,Address2,Address3,Batch,StartingSerial, EndingSerial)VALUES(" +
+                string sql = "INSERT INTO captive_database.aub_history(Date,Time,DeliveryDate,ChkType,ChequeName,BRSTN,AccountNo,Name1,Name2,Address1,BranchCode,Address2,Address3,Address4,Address5,Address6,Batch,StartingSerial, EndingSerial)VALUES(" +
 
                             "'" + DateTime.Now.ToString("yyyy-MM-dd") + "'," +
                             "'" + DateTime.Now.ToString("HH:mm:ss") + "'," +
-                            "'" + _check.deliveryDate.ToString("yyyy-MM-dd") + "'," +
+                            "'" + _deliveryDate.ToString("yyyy-MM-dd") + "'," +
                             "'" + _check.ChkType + "'," +
                             "'" + _check.ChkName + "'," +
                             "'" + _check.BRSTN + "'," +
@@ -213,9 +213,9 @@ namespace New_AUB.Services
                             "'" + _check.BranchCode + "'," +
                             "'" + _check.Address2.Replace("'", "''") + "'," +
                             "'" + _check.Address3.Replace("'", "''") + "'," +
-                            //  "'" + _check.Address4.Replace("'", "''") + "'," +
-                            //   "'" + _check.Address5.Replace("'", "''") + "'," +
-                            //  "'" + _check.Address6.Replace("'", "''") + "'," +
+                              "'" + _check.Address4.Replace("'", "''") + "'," +
+                               "'" + _check.Address5.Replace("'", "''") + "'," +
+                              "'" + _check.Address6.Replace("'", "''") + "'," +
                             "'" + _batch + "'," +
                             "'" + _check.StartingSerial + "'," +
                             "'" + _check.EndingSerial + "')";
@@ -243,11 +243,21 @@ namespace New_AUB.Services
             return _ref;
 
         }// end of function
+        public BranchModelRb UpdateRefRb(BranchModelRb _ref)
+        {
+            DBConnect();
+            string sql = "Update captive_database.aub_rb_branches SET LastNo = '" + _ref.LastNo +"' ,LastDate = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' where BRSTN = '" + _ref.BRSTN + "'";
+            MySqlCommand cmd = new MySqlCommand(sql, myConnect);
 
+            MySqlDataReader myReader = cmd.ExecuteReader();
+            DBClosed();
+            return _ref;
+
+        }// end of function
         public BranchModel GetBranchByBRSTN(BranchModel _model, string _brstn)
         {
             DBConnect();
-            string sql = "SELECT BRSTN,Address1,Address2,Address3,Address4   from " + databaseName + ".aub_branches where BRSTN ='" + _brstn + "';";
+            string sql = "SELECT BRSTN,Address1,Address2,Address3,Address4    from " + databaseName + ".aub_branches where BRSTN ='" + _brstn + "';";
             //List<BranchModel> Branches = new List<BranchModel>();
 
             MySqlCommand myCommand = new MySqlCommand(sql, myConnect);
@@ -270,6 +280,38 @@ namespace New_AUB.Services
 
 
                 // _model.Add(branch);
+            }//END OF WHILE
+            DBClosed();
+
+            return _model;
+
+        }
+        public BranchModelRb GetBranchByBRSTNRb(BranchModelRb _model, string _brstn)
+        {
+            DBConnect();
+            string sql = "SELECT BRSTN,Address1,Address2,Address3,LastNo FROM captive_database.aub_rb_branches  where BRSTN ='" + _brstn + "';";
+            //List<BranchModel> Branches = new List<BranchModel>();
+
+            MySqlCommand myCommand = new MySqlCommand(sql, myConnect);
+
+            MySqlDataReader myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+
+                BranchModelRb branch = new BranchModelRb();
+                // branch.DRNumber = myReader.GetString(0);
+
+                _model.BRSTN = !myReader.IsDBNull(0) ? myReader.GetString(0) : "";
+                _model.Address1 = !myReader.IsDBNull(1) ? myReader.GetString(1) : "";
+                _model.Address2 = !myReader.IsDBNull(2) ? myReader.GetString(2) : "";
+                _model.Address3 = !myReader.IsDBNull(3) ? myReader.GetString(3) : "";
+                // branch.Address4 = !myReader.IsDBNull(4) ? myReader.GetString(4) : "";
+                //branch.Date = !myReader.IsDBNull(11) ? myReader.GetDateTime(11) : DateTime.Today;
+                _model.LastNo = !myReader.IsDBNull(4) ? myReader.GetInt64(4) : 0;
+
+
+             //   _model.Add(branch);
             }//END OF WHILE
             DBClosed();
 

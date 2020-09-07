@@ -82,6 +82,7 @@ namespace New_AUB.Models
             set { _accountNo = value; }
         }
         public Int64 LastNo { get; set; }
-       
+        public  DateTime ModifiedDate { get; set; }
+
     }
 }
