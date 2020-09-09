@@ -622,9 +622,9 @@ namespace New_AUB
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Int64 endingserial = 0;
-          //  ZipfileServices zip = new ZipfileServices();
-           // var listofchecks = orderList.Select(r => r.BRSTN).ToList();
-
+            //  ZipfileServices zip = new ZipfileServices();
+            // var listofchecks = orderList.Select(r => r.BRSTN).ToList();
+            con.DumpMySQL();
             if (orderList != null)
             {
 
@@ -646,48 +646,19 @@ namespace New_AUB
             }
 
             if(orderListRb != null)
-            {
-                List<OrderModelRb> listofRb = new List<OrderModelRb>();
-                for (int i = 0; i < orderListRb.Count; i++)
-                {
-                    //startsSN = Int64.Parse(orderListRb[i].StartingSerial);
-                    //for (int a = 0; a < orderListRb[i].Quantity; a++)
-                    //{
-                    //    //     OrderModelRb rb = new OrderModelRb();
-                     
-                    //    if (orderListRb[i].ChkType == "B")
-                    //        endSN = startsSN + 99;
-                    //    else
-                    //        endSN = startsSN + 49;
-
-                       
-                        
-                    //    listofRb.Add(orderListRb[i]);
-                    //    listofRb[i].StartingSerial = startsSN.ToString();
-                    //     listofRb[i].EndingSerial = endSN.ToString();
-                    //    startsSN = endSN + 1;
-                       // orderListRb[i].StartingSerial = (endSN + 1).ToString();
-                   // }
-                 //   orderListRb[i].EndingSerial = ((Int64.Parse(orderListRb[i].StartingSerial) + (Int64.Parse(orderListRb[i].PcsPerbook) * orderListRb[i].Quantity)) - 1).ToString();
-
-                }
-                
+            {       
                 process.Process(orderListRb,this);
 
-                //for (int i = 0; i < orderListRb.Count; i++)
-                //{
-                //    con.SavedDatatoDatabaseRB(orderListRb[i], batchfile,deliveryDate);
-                //}
+                for (int i = 0; i < orderListRb.Count; i++)
+                {
+                    con.SavedDatatoDatabaseRB(orderListRb[i], batchfile, deliveryDate);
+                }
 
-               // orderListRb.Distinct();
                 z.ZipFileRb(frmLogIn.userName, this,orderListRb);
             }
-            
-           
-         //con.UpdateRef()
-           // z.ZipFileS("Elmer", this);
-           // z.CopyZipFile("Elmer", this);
-            //ZipfileServices.CopyPacking("Elmer", this);
+            z.DeleteFiles(".SQL", Application.StartupPath + "\\Head");
+            z.DeleteFiles(".xlxs", Application.StartupPath + "\\Head");
+            z.DeleteFiles(".xls", Application.StartupPath + "\\Head");
             MessageBox.Show("Done!");
             Environment.Exit(0);
         }

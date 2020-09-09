@@ -231,6 +231,47 @@ namespace New_AUB.Services
             }
             return _check;
         }// end of function
+        public ManualOrderModel SavedDatatoDatabaseM(ManualOrderModel _check, string _batch,DateTime _deliveryDate)
+        {
+            if (_check.BRSTN == null)
+            {
+
+            }
+            else
+            {
+                string sql = "INSERT INTO captive_database.aub_history(Date,Time,DeliveryDate,ChkType,ChequeName,BRSTN,AccountNo,Name1,Name2,Address1,Address2,Address3,Batch,StartingSerial, EndingSerial)VALUES(" +
+
+                            "'" + DateTime.Now.ToString("yyyy-MM-dd") + "'," +
+                            "'" + DateTime.Now.ToString("HH:mm:ss") + "'," +
+                            "'" + _deliveryDate.ToString("yyyy-MM-dd") + "'," +
+                            "'" + _check.ChkType + "'," +
+                            "'" + _check.ChkName + "'," +
+                            "'" + _check.BRSTN + "'," +
+                            "'" + _check.AccountNo + "'," +
+                            "'" + _check.AccountName.Replace("'", "''") + "'," +
+                            "'" + _check.AccountName2.Replace("'", "''") + "'," +
+                            "'" + _check.BranchName.Replace("'", "''") + "'," +
+                           // "'" + _check.BranchCode + "'," +
+                            "'" + _check.Address2.Replace("'", "''") + "'," +
+                            "'" + _check.Address3.Replace("'", "''") + "'," +
+                            //  "'" + _check.Address4.Replace("'", "''") + "'," +
+                            //   "'" + _check.Address5.Replace("'", "''") + "'," +
+                            //  "'" + _check.Address6.Replace("'", "''") + "'," +
+                            "'" + _batch + "'," +
+                            "'" + _check.StartingSerial + "'," +
+                            "'" + _check.EndingSerial + "')";
+
+
+
+                DBConnect();
+                MySqlCommand myCommand = new MySqlCommand(sql, myConnect);
+
+                myCommand.ExecuteNonQuery();
+                DBClosed();
+
+            }
+            return _check;
+        }// end of function
         public BranchModel UpdateRef(BranchModel _ref)
         {
             DBConnect();
@@ -347,8 +388,8 @@ namespace New_AUB.Services
         }//end of Function
         public void DumpMySQL()
         {
-            string dbname = frmMain.banks+ "_branches";
-            string outputFolder = Application.StartupPath + @"\Output\" + frmMain.outputFolder;
+            string dbname = "aub_branches";
+            string outputFolder = Application.StartupPath + @"\Head" ;
             Process proc = new Process();
 
             proc.StartInfo.FileName = "cmd.exe";
@@ -371,6 +412,13 @@ namespace New_AUB.Services
             myStreamWriter.WriteLine(temp);
 
             dbname = "aub_history";
+
+            temp = "mysqldump.exe --user=root --password=password=CorpCaptive --host=192.168.0.254 captive_database " + dbname + " > " +
+                 outputFolder + "\\" + DateTime.Today.ToShortDateString().Replace("/", ".") + "-" + dbname + ".SQL";
+
+            myStreamWriter.WriteLine(temp);
+
+            dbname = "aub_rb_branches";
 
             temp = "mysqldump.exe --user=root --password=password=CorpCaptive --host=192.168.0.254 captive_database " + dbname + " > " +
                  outputFolder + "\\" + DateTime.Today.ToShortDateString().Replace("/", ".") + "-" + dbname + ".SQL";

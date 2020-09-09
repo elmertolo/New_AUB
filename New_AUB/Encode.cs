@@ -26,6 +26,7 @@ namespace New_AUB
         DbConServices con = new DbConServices();
         List<ManualOrderModel> orderList = new List<ManualOrderModel>();
         ProcessServices proc = new ProcessServices();
+        ZipfileServices zip = new ZipfileServices();
         public string batchfile = "";
         public DateTime deliveryDate;
         DateTime dateTime;
@@ -106,22 +107,23 @@ namespace New_AUB
          //   order.Quantity = Int64.Parse(txtQty.Text);
             var listofbranch = branchList.FirstOrDefault(r => r.BRSTN == txtBrstn.Text);
             startSN = listofbranch.MC_LastNo + 1;
-           // startSN = listofbranch.MCS_LastNo + 1;
+            // startSN = listofbranch.MCS_LastNo + 1;
+            string chkType = cmbChkType.Text;
             for (int a = 0; a < qty; a++)
             {
                 ManualOrderModel order = new ManualOrderModel();
                 order.BRSTN = txtBrstn.Text;
-                order.ChkName = cmbChkType.Text;
+                order.ChkName = chkType;
                 if (order.ChkName == "Manager's Check")
                 {
-                    order.ChkName = "Manager\'s Check";
+                    order.ChkName = "Manager''s Check";
                     order.ChkType = "MC";
 
                     order.StartingSerial = startSN.ToString();
                 }
                 else if (order.ChkName == "Manager's Check (Smart)")
                 {
-                    order.ChkName = "Manager\'s Check (Smart)";
+                    order.ChkName = "Manager''s Check (Smart)";
                     order.ChkType = "MCS";
 
                     order.StartingSerial = startSN.ToString();
@@ -129,7 +131,7 @@ namespace New_AUB
                 else if (order.ChkName == "Manager's Check (Continues)")
                 {
 
-                    order.ChkName = "Manager\'s Check (Smart)";
+                    order.ChkName = "Manager''s Check (Continues)";
                     order.ChkType = "MC_CONT";
                     //startSN = listofbranch.MC_LastNo + 1;
                     order.StartingSerial = startSN.ToString();
@@ -159,7 +161,10 @@ namespace New_AUB
                 dgvOrderList.Rows.Add(order.BRSTN, order.AccountNo, order.AccountName, order.AccountName2, order.ChkType, order.ChkName, order.Quantity, order.PcsPerbook);
 
                 orderList.Add(order);
+               
             }
+            ClearAllInputText();
+
         }
 
         private void lblPcsPerbook_Click(object sender, EventArgs e)
@@ -173,12 +178,11 @@ namespace New_AUB
             {
                 lblPcsPerbook.Text = "50 Pcs/Book";
                 chkType = "MC";
-                //order.PcsPerbook = "50";
-                //order.ChkType = "MC";
-                //order.ChkName = "Manager\'s Check";
+              
                 cmbBranch.Items.Clear();
                 cmbBranch.Text = "  ------------------------Select Branch-----------------------";
                 con.GetAllBranches(branchList);
+             
                 for (int i = 0; i < branchList.Count; i++)
                 {
                     cmbBranch.Items.Add(branchList[i].Address1);
@@ -192,12 +196,11 @@ namespace New_AUB
             {
                 lblPcsPerbook.Text = "50 Pcs/Book";
                 chkType = "MCS";
-                //order.PcsPerbook = "50";
-                //order.ChkType = "MCS";
-                //order.ChkName = "Manager\'s Check (Smart)";
+              
                 cmbBranch.Items.Clear();
                 cmbBranch.Text = "  ------------------------Select Branch-----------------------";
                 con.GetAllBranches(branchList);
+              //  cmbChkType.Text = "Manager''s Check (Smart)";
                 for (int i = 0; i < branchList.Count; i++)
                 {
                     cmbBranch.Items.Add(branchList[i].Address1);
@@ -208,9 +211,7 @@ namespace New_AUB
             else if (cmbChkType.Text == "Manager's Check (Continues)")
             {
                 lblPcsPerbook.Text = "50 Pcs/Book";
-                //order.PcsPerbook = "50";
-                //order.ChkType = "MC_CONT";
-                //order.ChkName = "Manager\'s Check (Continues)";
+           
                 txtBrstn.Text = "011020011";
                 cmbBranch.Items.Clear();
                 cmbBranch.Text = "  ------------------------Select Branch-----------------------";
@@ -219,21 +220,15 @@ namespace New_AUB
                 cmbBranch.Items.Add("ACCOUNTING DEPARTMENT");
 
                 con.GetAllBranchesRB(branchList2);
-                
+             
                 outputfolder = "Managers_Checks\\Continues";
-                //for (int i = 0; i < branchList.Count; i++)
-                //{
-                //    cmbBranch.Items.Add(branchList[i].Address1);
-
-                //}
+               
             }
           
             else if (cmbChkType.Text == "Charge Slip")
             {
                 lblPcsPerbook.Text = "50 Pcs/Book";
-                //order.PcsPerbook = "50";
-                //order.ChkType = "CS";
-                //order.ChkName = "Charge Slip";
+               
                 cmbBranch.Items.Clear();
                 cmbBranch.Refresh();
                 outputfolder = "Charge Slip";
@@ -242,9 +237,7 @@ namespace New_AUB
             else if (cmbChkType.Text == "Time Deposit - Peso")
             {
                 lblPcsPerbook.Text = "50 Pcs/Book";
-                //order.PcsPerbook = "50";
-                //order.ChkType = "TDP1";
-                //order.ChkName = "Time Deposit - Peso";
+               
                 cmbBranch.Items.Clear();
                 cmbBranch.Refresh();
                 outputfolder = "Time_Deposit\\Peso";
@@ -253,9 +246,7 @@ namespace New_AUB
             else if (cmbChkType.Text == "Time Deposit - Dollar")
             {
                 lblPcsPerbook.Text = "50 Pcs/Book";
-                //order.PcsPerbook = "50";
-                //order.ChkType = "TDD";
-                //order.ChkName = "Time Deposit - Dollar";
+               
                 cmbBranch.Items.Clear();
                 cmbBranch.Refresh();
                 outputfolder = "Time_Deposit\\Dollar";
@@ -282,12 +273,14 @@ namespace New_AUB
             proc.PackingTextM(orderList, this, outputfolder);
             proc.PrinterFileM(orderList, this, outputfolder);
             proc.SaveToPackingDBFM(orderList, batchfile, this, outputfolder);
-            //BindingSource checkBind = new BindingSource();
-            //checkBind.DataSource = orderList;
-            //dgvOrderList.DataSource = checkBind;
+            for (int i = 0; i < orderList.Count; i++)
+            {
+                con.SavedDatatoDatabaseM(orderList[i], batchfile,deliveryDate);
+            }
+            zip.ZipFileM(frmLogIn.userName, this,orderList);
 
             MessageBox.Show("Done!!");
-            Environment.Exit(0);
+            Environment.Exit(0); 
         }
 
         private void cmbChkType_KeyPress(object sender, KeyPressEventArgs e)

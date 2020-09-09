@@ -3680,7 +3680,7 @@ namespace New_AUB.Services
             var listofcheck = _checks.Select(r => r.ChkType).ToList();
             foreach (string Scheck in listofcheck)
             {
-                if (Scheck == "A")
+                if (Scheck == "MC_CONT")
                 {
 
                     string packkingListPath = outputFolder + "\\" + _outputFolder + "\\BlockP.txt";
@@ -3785,7 +3785,7 @@ namespace New_AUB.Services
             }
             foreach (string Scheck in listofcheck)
             {
-                if (Scheck == "B")
+                if (Scheck == "MC_CONT")
                 {
 
                     string packkingListPath = outputFolder + "\\" + _outputFolder + "\\PackingC.txt";
@@ -3921,6 +3921,48 @@ namespace New_AUB.Services
                     oConnect.Close();
                 }
             }
+            foreach (string checktype in listofchecks)
+            {
+
+                if (checktype == "MC_CONT")
+                {
+                    dbConnection = "Provider=VfpOleDB.1; Data Source=" + Application.StartupPath + "\\Output\\" + _outputFolder + "\\Packing.dbf" + "; Mode=ReadWrite;";
+
+                    //Check if packing file exists
+                    //if (!File.Exists(_filepath))
+                    //{
+                    OleDbConnection oConnect = new OleDbConnection(dbConnection);
+                    OleDbCommand oCommand;
+                    oConnect.Open();
+                    oCommand = new OleDbCommand("DELETE FROM PACKING", oConnect);
+                    oCommand.ExecuteNonQuery();
+                    foreach (var check in _checks)
+                    {
+                        if (tempCheckType != check.ChkType)
+                            blockNo = 1;
+
+                        tempCheckType = check.ChkType;
+
+                        if (blockCounter < 4)
+                            blockCounter++;
+                        else
+                        {
+                            blockCounter = 1;
+                            blockNo++;
+                        }
+
+                        string sql = "INSERT INTO PACKING (BATCHNO,BLOCK, RT_NO,BRANCH, ACCT_NO, ACCT_NO_P, CHKTYPE, ACCT_NAME1,ACCT_NAME2," +
+                         "NO_BKS, CK_NO_B, CK_NO_E,DELIVERTO, CHKNAME) VALUES('" + _batchNumber + "'," + blockNo.ToString() + ",'" + check.BRSTN + "','" + check.BranchName +
+                         "','" + check.AccountNo + "','" + check.AccountNo + "','" + check.ChkType + "','" + check.AccountName.Replace("'", "''") + "','" + check.AccountName2.Replace("'", "''") + "',1,'" +
+                        check.StartingSerial + "','" + check.EndingSerial + "','CPC','" + check.ChkType + "')";
+
+                        oCommand = new OleDbCommand(sql, oConnect);
+
+                        oCommand.ExecuteNonQuery();
+                    }
+                    oConnect.Close();
+                }
+            }
         }
         public void PrinterFileM(List<ManualOrderModel> _checkModel, Encode _mainForm, string _outputFolder)
         {
@@ -3961,7 +4003,7 @@ namespace New_AUB.Services
             }
             foreach (string checktype in listofchecks)
             {
-                if (checktype == "B")
+                if (checktype == "MC_CONT")
                 {
                     string printerFilePath = Application.StartupPath + "\\Output\\" + _outputFolder + "\\AUB" /*+ _mainForm.batchfile.Substring(0, 4)*/ + "C.txt";
                     var check = _checkModel.Where(e => e.ChkType == checktype).ToList();

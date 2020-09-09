@@ -1127,73 +1127,38 @@ namespace New_AUB.Services
                         check.EndingSerial = "0" + check.EndingSerial;
                 }
                 output += "10\n" + //1 (FIXED)
-                                   // "10\n" + //2 (FIXED)
-                         check.BRSTN + "\n" + //3  (BRSTN)
-                                              //check.BRSTN + "\n" + //4  (BRSTN)
-                         check.AccountNo + "\n" + //5 (ACCT NUMBER)
-                                                  //check.AccountNo + "\n" + //6 (ACCT NUMBER)
-                         Series.ToString() + "\n" + //7 (Start Series + PCS per Book)
-                                                    //Series.ToString() + "\n" + //8 (Start Series + PCS per Book)
-                         check.ChkType + "\n" + //9 (FIXED)
-                                                //check.ChkType + "\n" + //10 (FIXED)
-                         "\n" + //11 (BLANK)
-                                //"\n" + //12 (BLANK)
-                                //       check.BRSTN.Substring(0, 5) + "\n"; //13 BRSTN FORMATTED
+                         check.BRSTN + "\n" + //3  (BRSTN)                                             
+                         check.AccountNo + "\n" + //5 (ACCT NUMBER)                                              
+                         Series.ToString() + "\n" + //7 (Start Series + PCS per Book)                                                    
+                         check.ChkType + "\n" + //9 (FIXED)                                              
+                         "\n" + //11 (BLANK)                           
                          check.BRSTN.Substring(0, 5) + "\n" +//14 BRSTN FORMATTED
-                         " " + check.BRSTN.Substring(5, 4) + "\n" + //15 BRSTN FORMATTED
-                                                                    //" " + check.BRSTN.Substring(5, 4) + "\n" + //16 BRSTN FORMATTED
-                         check.AccountNo.Substring(0, 5) + "-" + check.AccountNo.Substring(5, 5) + "-" + check.AccountNo.Substring(10, 1) + "\n" + //17 (ACCT NUMBER)
-                //check.AccountNo.Substring(0, 5) + "-" + check.AccountNo.Substring(5, 5) + "-" + check.AccountNo.Substring(10, 1) + "\n" + //18 (ACCT NUMBER)
-                         check.AccountName + "\n" + //19 (NAME 1)
-                //check.Name1 + "\n" + //20 (NAME 1)
-                         "SN\n" + //21 (FIXED)
-                //"SN\n" + //22 (FIXED)
-                         "\n" + //23 (BLANK) 
-                //"\n" + //24 (BLANK) 
-                         check.AccountName2 + "\n" + //25 (NAME 2)
-                //check.Name2 + "\n" + //26 (NAME 2)
-                         "\n" + //27 (FIXED)
-                //"\n" + //28 (FIXED)
-                         "\n" + //29 (BLANK)
-                //"\n" +//30 (BLANK)
-                         "\n" + //31 (BLANK)
-                //"\n" +//32(BLANK)
-                         check.BranchName + "\n" + //33 (ADDRESS 1)
-                //check.Address1 + "\n" + //34 (ADDRESS 1)
-                         check.Address2 + "\n" + //35 (ADDRESS 2)
-                //check.Address2 + "\n" + //36 (ADDRESS 2)
-                         check.Address3 + "\n" + //37 (ADDRESS 3)
-                                                 // check.Address3 + "\n" + //38 (ADDRESS 3)
+                         " " + check.BRSTN.Substring(5, 4) + "\n" + //15 BRSTN FORMATTED                                                                    
+                         check.AccountNo.Substring(0, 5) + "-" + check.AccountNo.Substring(5, 5) + "-" + check.AccountNo.Substring(10, 1) + "\n" + //17 (ACCT NUMBER)                
+                         check.AccountName + "\n" + //19 (NAME 1)           
+                         "SN\n" + //21 (FIXED)           
+                         "\n" + //23 (BLANK)                
+                         check.AccountName2 + "\n" + //25 (NAME 2)                
+                         "\n" + //27 (FIXED)          
+                         "\n" + //29 (BLANK)          
+                         "\n" + //31 (BLANK)           
+                         check.BranchName + "\n" + //33 (ADDRESS 1)                
+                         check.Address2 + "\n" + //35 (ADDRESS 2)  
+                         check.Address3 + "\n" + //37 (ADDRESS 3)                            
                          check.Address4 + "\n" + //39 (ADDRESS 4)
-                //check.Address4 + "\n" + //40 (ADDRESS 4)
                          check.Address5 + "\n" + //41 (ADDRESS 5)
-                                                 //check.Address5 + "\n" + //42 (ADDRESS 5)
-                         "\n" +//43 (BLANK)
-                //"\n" +//44 (BLANK)
-                         "ISLA BANK\n" +//45 (FIXED)
-                //"ISLA BANK\n" +//46 (FIXED)
-                         "\n" + //47 (BLANK)//
-                                // "\n" + //48 (BLANK)
-                         "\n" + //49 (BLANK)
-                //"\n" + //50 (BLANK)
+                         check.Address6 + "\n" +                  
+                         "ASIA UNITED BANK\n" +//45 (FIXED)
+                         "\n" + //47 (BLANK)//   
+                         "\n" + //49 (BLANK)  
                          "\n" + //51 (BLANK)
-                // "\n" + //52 (BLANK)
-                         "\n" + //53 (BLANK)
-                                // "\n" + //54 (BLANK)
-                         "\n" + //55 (BLANK)
-                //"\n" + //56 (BLANK)
-                         "\n" + //57 (BLANK)
-                                // "\n" + //58 (BLANK)
-                         "\n" + //59 (BLANK)
-                                // "\n" + //60 (BLANK)
-                         "\n" + //61 (BLANK)
-                //"\n" + //62 (BLANK)
-                check.StartingSerial + "\n" + //63 (STARTING SERIES)
-                //check.StartSeries + "\n" + //64 (STARTING SERIES)
+                         "\n" + //53 (BLANK)                         
+                         "\n" + //55 (BLANK)               
+                         "\n" + //57 (BLANK)                  
+                         "\n" + //59 (BLANK)                                        
+                check.StartingSerial + "\n" + //63 (STARTING SERIES)               
                 check.EndingSerial + "\n";  //65 (ENDING SERIES)
-                //check.EndSeries + "\n"; //66 (ENDING SERIES)     
-                //if(sort.Count % 4 == 0)
-                //              output +=     "\\" + "\n";
+
             }
 
             return output;
@@ -1312,7 +1277,7 @@ namespace New_AUB.Services
             if (noFooter) //ADD FOOTER
             {
                 output += "\n " + _batchNumber + GenerateSpace(46) + "DLVR: " + _deliveryDate.ToString("MM-dd(ddd)") + "\n\n" +
-                    " A = " + checkTypeCount + GenerateSpace(20) + frmMain.batch + ".txt\n" +
+                    " A = " + _check.Count + GenerateSpace(20)  + ".txt\n" +
                     countText +
                     GenerateSpace(4) + "Prepared By" + GenerateSpace(3) + ": " + _preparedBy + "\t\t\t\t RECHECKED BY:\n" +
                     GenerateSpace(4) + "Updated By" + GenerateSpace(4) + ": " + _preparedBy + "\n" +

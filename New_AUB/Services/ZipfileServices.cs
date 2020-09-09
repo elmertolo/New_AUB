@@ -48,7 +48,7 @@ namespace New_AUB.Services
             string path = "";
 
             //Adding order file to zip file
-            //  zips.AddItem(Application.StartupPath + "\\Head");
+         
             for (int i = 0; i < _orders.Count; i++)
             {
                
@@ -68,6 +68,39 @@ namespace New_AUB.Services
             }
 
            
+
+        }
+        public void ZipFileM(string _processby, Encode main, List<ManualOrderModel> _orders)
+        {
+
+            string sPath = sPath = Application.StartupPath + "\\Output\\";
+            string dPath = Application.StartupPath + "\\Output\\AFT_" + main.batchfile + "_" + _processby + ".zip";
+            DeleteFiles(".zip", Application.StartupPath + "\\Output");
+            ZipFile.CreateFromDirectory(Application.StartupPath + "\\Head", dPath);
+            Ionic.Zip.ZipFile zips = new Ionic.Zip.ZipFile(dPath);
+            string path = "";
+
+            //Adding order file to zip file
+
+            for (int i = 0; i < _orders.Count; i++)
+            {
+
+                sPath = Application.StartupPath + "\\Output\\" + Encode.outputfolder ;
+
+                if (sPath == path)
+                    //sPath = Application.StartupPath + "\\Output\\" + _orders[i].BankName;
+                    i++;
+
+                else
+                {
+                    zips.AddDirectory(sPath, Encode.outputfolder);
+                    zips.Save();
+                    zips.Dispose();
+                    path = Application.StartupPath + "\\Output\\" + Encode.outputfolder;
+                }
+            }
+
+
 
         }
         public void DeleteFiles(string _ext,string _path)
