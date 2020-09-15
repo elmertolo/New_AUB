@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using New_AUB.Models;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 
 namespace New_AUB.Services
 {
@@ -443,7 +445,83 @@ namespace New_AUB.Services
 
             return "";
         } //end of Function
+        public List<HashModel> GetBatchForHashTotal(List<HashModel> _model)
+        {
+            DBConnect();
+            string sql = "SELECT Distinct(Batch) FROM captive_database.aub_history  where  HashSentDate is null and (ChkType ='MC' or ChkType ='MC_CONT' or ChkType = 'MCS') ;";
+            //List<BranchModel> Branches = new List<BranchModel>();
 
-        
+            MySqlCommand myCommand = new MySqlCommand(sql, myConnect);
+
+            MySqlDataReader myReader = myCommand.ExecuteReader();
+
+            while (myReader.Read())
+            {
+
+                HashModel hash = new HashModel();
+
+
+                hash.Batch = !myReader.IsDBNull(0) ? myReader.GetString(0) : "";
+
+
+            
+                  _model.Add(hash);
+
+            }//END OF WHILE
+            DBClosed();
+
+            return _model;
+
+        }
+        public string SendHashTotal(string _hash)
+        {
+            try
+            {
+                DBConnect();
+                string body = "Good Day," +
+                "\n\n\tHere attached the Hash total for batch " + _hash +
+                "\n\n\tThis is a System Generated Message!\n\n\n\n " +
+                "Thanks and Best Regards," +
+                "\n\n Captive Printing Corporation";
+
+                string sql = "Insert into captive_database.emails (Bank,Recipient_Email,Subject, Body, DateRequest,TimeRequest, Status, Source_email)" +
+                            " Values('AUB','elmerhernaeztolo@gmail.com','AUB Hast Total for Batch" + _hash + "','" + body.Replace("'", "''") + "','"
+                            + DateTime.Now.ToString("yyyy-MM-dd") + "','" + DateTime.Now.ToString("HH:mm:ss") + "','Received','orders@captiveprinting.com.ph')";
+
+                MailMessage msg = new MailMessage();
+                msg.From = new MailAddress("orders@captiveprinting.com.ph");
+                msg.To.Add("elmerhernaeztolo@gmail.com");
+                msg.Subject = "AUB Hash Total for batch " + _hash;
+                msg.Body =body;
+                //msg.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+             
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new System.Net.NetworkCredential("orders@captiveprinting.com.ph", "CorpCaptive0");
+                smtp.EnableSsl = true;
+                msg.Attachments.Add(new Attachment(Application.StartupPath + "\\Output\\Managers_Checks\\PackingP.txt"));
+                smtp.Send(msg);
+
+                string sql2 = "Update " + databaseName + ".aub_history SET HashSentDate = '"+ DateTime.Now.ToString("yyyy-MM-dd") + "', HashSentTime = '"+ DateTime.Now.ToString("HH:mm:ss") + "' where Batch = '"+_hash+"'";
+          
+                MySqlCommand myCommand2 = new MySqlCommand(sql2, myConnect);
+                MySqlCommand myCommand = new MySqlCommand(sql, myConnect);
+                MessageBox.Show("Your Mail is sended");
+           
+                myCommand.ExecuteNonQuery();
+                myCommand2.ExecuteNonQuery();
+                DBClosed();
+            }
+            catch(Exception a)
+            {
+                MessageBox.Show(a.Message);
+            }
+
+
+            return _hash;
+        }
+
+
     }
 }

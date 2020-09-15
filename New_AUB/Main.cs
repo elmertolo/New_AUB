@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 
+
 namespace New_AUB
 {
     public partial class frmMain : Form
@@ -22,6 +23,7 @@ namespace New_AUB
         List<OrderModel> orderList = new List<OrderModel>();
         List<OrderModel> orderList2 = new List<OrderModel>();
         List<OrderModelRb> orderListRb = new List<OrderModelRb>();
+        List<HashModel> hash = new List<HashModel>();
         ZipfileServices z = new ZipfileServices();
         public static string outputFolder = "Regular Checks";
         public static string banks = "";
@@ -29,6 +31,8 @@ namespace New_AUB
         Int64 startsSN = 0;
         Int64 endSN = 0;
         public static string _fileName = "";
+        int TotalA = 0;
+        int TotalB = 0;
         public frmMain()
         {
 
@@ -39,6 +43,19 @@ namespace New_AUB
         private void Form1_Load(object sender, EventArgs e)
         {
 
+            con.GetBatchForHashTotal(hash);
+            if (hash.Count == 0)
+            {
+                lblHashText.Text = "No pending hash to be sent!";
+            }
+            else
+            {
+                lblHashText.Text = hash.Count + " Hash not yet sent!!!"; 
+                for (int i = 0; i < hash.Count; i++)
+                {
+                    cbBatch.Items.Add(hash[i].Batch);
+                }
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -304,6 +321,7 @@ namespace New_AUB
 
                                                                         }
                                                                         order.PcsPerbook = "100";
+                                                                        TotalB++;
                                                                     }
                                                                     else
 
@@ -335,6 +353,7 @@ namespace New_AUB
 
                                                                         }
                                                                         order.PcsPerbook = "50";
+                                                                        TotalA++;
                                                                     }
 
                                                                         //errorMessage += ProcessServices.CheckInBranches(order.BRSTN, order.FileName);
@@ -562,12 +581,14 @@ namespace New_AUB
                                                     {
                                                         check.ChkType = "A";
                                                         check.PcsPerbook = "50";
+                                                        TotalA++;
                                                     }
 
                                                     else
                                                     {
                                                         check.ChkType = "B";
                                                         check.PcsPerbook = "100";
+                                                        TotalB++;
                                                     }
                                                  //  check.StartingSerial = startsSN.ToString();
                                                    // endSN = startsSN + (Int64.Parse(check.PcsPerbook) - 1);
@@ -601,10 +622,22 @@ namespace New_AUB
                         {
                             //toolStripProgressBar.Visible = false;
 
-                            BindingSource checkBind = new BindingSource();
-                            checkBind.DataSource = orderListRb;
-                            dataGridView1.DataSource = checkBind;
-                            lblTotal.Text = orderListRb.Count.ToString();
+                            //BindingSource checkBind = new BindingSource();
+                            //checkBind.DataSource = orderListRb;
+                            //dataGridView1.DataSource = checkBind;
+
+                            if (orderList.Count != 0)
+                            {
+                                lblTotalA.Text = TotalA.ToString();
+                                lblTotalB.Text = TotalB.ToString();
+                                lblTotal.Text = orderList.Count.ToString();
+                            }
+                            else if (orderListRb.Count != 0)
+                            {
+                                lblTotalA.Text = TotalA.ToString();
+                                lblTotalB.Text = TotalB.ToString();
+                                lblTotal.Text = orderListRb.Count.ToString();
+                            }
                             MessageBox.Show("No Errors Found", "System Message");
 
                             generateToolStripMenuItem.Enabled = true;
@@ -668,6 +701,11 @@ namespace New_AUB
             Encode frmencode = new Encode();
             frmencode.Show();
             this.Hide();
+        }
+
+        private void btnSendHash_Click(object sender, EventArgs e)
+        {
+            con.SendHashTotal(cbBatch.Text);
         }
     }
 }

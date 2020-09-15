@@ -267,7 +267,7 @@ namespace New_AUB
 
         private void processToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            con.DumpMySQL();
             proc.DoBlockProcessM(orderList,this,outputfolder);
            
             proc.PackingTextM(orderList, this, outputfolder);
@@ -277,8 +277,9 @@ namespace New_AUB
             {
                 con.SavedDatatoDatabaseM(orderList[i], batchfile,deliveryDate);
             }
+            
             zip.ZipFileM(frmLogIn.userName, this,orderList);
-
+            zip.DeleteFiles(".SQL", Application.StartupPath + "\\Head");
             MessageBox.Show("Done!!");
             Environment.Exit(0); 
         }

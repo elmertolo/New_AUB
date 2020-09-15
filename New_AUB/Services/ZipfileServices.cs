@@ -48,11 +48,11 @@ namespace New_AUB.Services
             string path = "";
 
             //Adding order file to zip file
-         
-            for (int i = 0; i < _orders.Count; i++)
+            var checks = _orders.OrderBy(e=>e.BRSTN).ToList();
+            for (int i = 0; i < checks.Count; i++)
             {
                
-                    sPath = Application.StartupPath + "\\Output\\" + _orders[i].BankName;
+                    sPath = Application.StartupPath + "\\Output\\" + checks[i].BankName;
 
                 if (sPath == path )
                     //sPath = Application.StartupPath + "\\Output\\" + _orders[i].BankName;
@@ -60,10 +60,10 @@ namespace New_AUB.Services
 
                 else
                 {
-                    zips.AddDirectory(sPath, _orders[i].BankName);
+                    zips.AddDirectory(sPath, checks[i].BankName);
                     zips.Save();
                     zips.Dispose();
-                    path = Application.StartupPath + "\\Output\\" + _orders[i].BankName;
+                    path = Application.StartupPath + "\\Output\\" + checks[i].BankName;
                 }
             }
 
