@@ -316,7 +316,7 @@ namespace New_AUB
                                                                         }
                                                                         else if (order.FileName.Substring(11, 1) == "R")
                                                                         {
-                                                                            outputFolder = "Regular Checks";
+                                                                            outputFolder = "Regular_Checks";
                                                                             order.ChkName = "Regular Commercial Checks";
 
                                                                         }
@@ -348,7 +348,7 @@ namespace New_AUB
                                                                         }
                                                                         else if (order.FileName.Substring(11, 1) == "R")
                                                                         {
-                                                                            outputFolder = "Regular Checks";
+                                                                            outputFolder = "Regular_Checks";
                                                                             order.ChkName = "Regular Personal Checks";
 
                                                                         }
@@ -654,46 +654,53 @@ namespace New_AUB
 
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Int64 endingserial = 0;
-            //  ZipfileServices zip = new ZipfileServices();
-            // var listofchecks = orderList.Select(r => r.BRSTN).ToList();
-            con.DumpMySQL();
-            if (orderList != null)
+            try
             {
-
-              
-                process.DoBlockProcess(orderList, this, outputFolder);
-                process.PackingText(orderList, this,outputFolder);
-                process.PrinterFile(orderList, this, outputFolder);
-                process.SaveToPackingDBF(orderList, batchfile, this, outputFolder);
-                for (int i = 0; i < orderList.Count; i++)
+                con.DumpMySQL();// Creating database backup
+                if (orderList != null)// Generation for Regular checks,Starter Checks,Advantage checks
                 {
 
-                    con.SavedDatatoDatabase(orderList[i], batchfile);
-                }
+                    z.DeleteFiles(".txt", Application.StartupPath + "\\Output\\" + outputFolder);
+                    process.DoBlockProcess(orderList, this, outputFolder);
+                    process.PackingText(orderList, this, outputFolder);
+                    process.PrinterFile(orderList, this, outputFolder);
+                    process.SaveToPackingDBF(orderList, batchfile, this, outputFolder);
+                    process.GenerateSortRTFile(orderList, outputFolder);
+                    for (int i = 0; i < orderList.Count; i++)//saving processed data to database
+                    {
 
-                for (int f = 0; f < updateBranch.Count; f++)//Updating Serial
+                        con.SavedDatatoDatabase(orderList[i], batchfile);
+                    }
+
+                    for (int f = 0; f < updateBranch.Count; f++)//Updating Serial
+                    {
+                        con.UpdateRef(updateBranch[f]);
+                    }
+                    z.ZipFileS(frmLogIn.userName, this, orderList);//zipping files
+                }//end generation of data
+
+                else if (orderListRb != null)//Rural bank data generation
                 {
-                    con.UpdateRef(updateBranch[f]);
-                }
+                    process.Process(orderListRb, this);
+
+                    for (int i = 0; i < orderListRb.Count; i++)
+                    {
+                        con.SavedDatatoDatabaseRB(orderListRb[i], batchfile, deliveryDate);
+                    }
+
+                    z.ZipFileRb(frmLogIn.userName, this, orderListRb);//zipping files
+                }//Rural bank data generation end
+                z.DeleteFiles(".SQL", Application.StartupPath + "\\Head");
+                z.DeleteFiles(".txt", Application.StartupPath + "\\Head");
+                z.DeleteFiles(".xlxs", Application.StartupPath + "\\Head");
+                z.DeleteFiles(".xls", Application.StartupPath + "\\Head");
+                MessageBox.Show("Done!");
+                Environment.Exit(0);
             }
-
-            if(orderListRb != null)
-            {       
-                process.Process(orderListRb,this);
-
-                for (int i = 0; i < orderListRb.Count; i++)
-                {
-                    con.SavedDatatoDatabaseRB(orderListRb[i], batchfile, deliveryDate);
-                }
-
-                z.ZipFileRb(frmLogIn.userName, this,orderListRb);
+            catch(Exception a)
+            {
+                MessageBox.Show(a.Message);
             }
-            z.DeleteFiles(".SQL", Application.StartupPath + "\\Head");
-            z.DeleteFiles(".xlxs", Application.StartupPath + "\\Head");
-            z.DeleteFiles(".xls", Application.StartupPath + "\\Head");
-            MessageBox.Show("Done!");
-            Environment.Exit(0);
         }
 
         private void encodeToolStripMenuItem_Click(object sender, EventArgs e)

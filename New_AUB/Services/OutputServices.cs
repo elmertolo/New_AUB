@@ -1486,8 +1486,443 @@ namespace New_AUB.Services
 
             return output;
         }
+        //Convert Output Value to SortRT Format (can be used to other bank application)
+        public static string ConvertNoSortRTFormat(List<OrderModel> _checks, string _checkType)
+        {
+            try
+            {
+                string output = "";
 
+                OrderModel tempCheck = new OrderModel();
 
+                int page = 1, lineCounter = 0;
+
+                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                              "\t\t" + DateTime.Now.ToShortDateString() +
+                              "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                              "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                              "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                if (_checks[0].ChkType == "A" || _checks[0].ChkType == "B")
+                {
+                    var checkListA = _checks.Where(r => r.ChkType == "A").ToList();
+
+                    var brstnList = checkListA.Select(r => r.BRSTN).Distinct().ToList();
+
+                    foreach (string brstn in brstnList)
+                    {
+                        lineCounter += 11;
+
+                        var checkList = checkListA.Where(r => r.BRSTN == brstn).ToList();
+
+                        output += "\n\t\t** CHECK TYPE/BRSTN/BATCH # ---->\t\t A/" + checkList[0].AccountNo + "/\n" +
+                                      "\t\t** Branch: " + checkList[0].BranchName + "\n";
+
+                        var acctList = checkList.Select(r => r.AccountNo).Distinct().ToList();
+
+                        foreach (string acctNo in acctList)
+                        {
+                            var check = checkList.Where(r => r.AccountNo == acctNo).ToList();
+
+                            output += "\t\t " + check[0].AccountNo + " " + check.Count.ToString() + " " + check[0].AccountName + "\n";
+
+                            lineCounter++;
+
+                            if (lineCounter >= 60)
+                            {
+                                output += Seperator();
+
+                                page++;
+
+                                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                      "\t\t" + DateTime.Now.ToShortDateString() +
+                                      "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                      "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                                      "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                                lineCounter = 0;
+                            }
+                        }
+
+                        output += "\n\t\tSub Total: " + checkList.Count.ToString() + "\n";
+
+                        lineCounter++;
+
+                        if (lineCounter >= 60)
+                        {
+                            output += Seperator();
+
+                            page++;
+
+                            output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                  "\t\t" + DateTime.Now.ToShortDateString() +
+                                  "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                  "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                                  "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                            lineCounter = 0;
+                        }
+                    }//END OF FOREACH
+
+                    var checkListB = _checks.Where(r => r.ChkType == "B").ToList();
+
+                    brstnList = checkListB.Select(r => r.BRSTN).Distinct().ToList();
+
+                    foreach (string brstn in brstnList)
+                    {
+                        lineCounter += 11;
+
+                        var checkList = checkListB.Where(r => r.BRSTN == brstn).ToList();
+
+                        output += "\n\t\t** CHECK TYPE/BRSTN/BATCH # ---->\t\t B/" + checkList[0].AccountNo + "/\n" +
+                                      "\t\t** Branch: " + checkList[0].BranchName + "\n";
+
+                        var acctList = checkList.Select(r => r.AccountNo).Distinct().ToList();
+
+                        foreach (string acctNo in acctList)
+                        {
+                            var check = checkList.Where(r => r.AccountNo == acctNo).ToList();
+
+                            output += "\t\t " + check[0].AccountNo + " " + check.Count.ToString() + " " + check[0].AccountName + "\n";
+
+                            lineCounter++;
+
+                            if (lineCounter >= 60)
+                            {
+                                output += Seperator();
+
+                                page++;
+
+                                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                      "\t\t" + DateTime.Now.ToShortDateString() +
+                                      "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                      "\t\t\t\t\tEWB - " + _checkType + "\n\n" +
+                                      "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                                lineCounter = 0;
+                            }
+                        }
+
+                        output += "\n\t\tSub Total: " + checkList.Count.ToString() + "\n";
+
+                        lineCounter++;
+
+                        if (lineCounter >= 60)
+                        {
+                            output += Seperator();
+
+                            page++;
+
+                            output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                  "\t\t" + DateTime.Now.ToShortDateString() +
+                                  "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                  "\t\t\t\t\tEWB - " + _checkType + "\n\n" +
+                                  "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                            lineCounter = 0;
+                        }
+                    }//END OF FOREACH
+                }
+                //else
+                //{
+                //    var brstnList = _checks.Select(r => r.BRSTN).Distinct().ToList();
+
+                //    string type = "";
+
+                //    if (_checkType == "Manager's Check")
+                //        type = "MC";
+                //    else if (_checkType == "Basic Check" || _checkType == "Basic Check - Pre Encoded")
+                //        type = "J";
+                //    else if (_checkType == "Voucher" || _checkType == "Voucher - Pre Encoded")
+                //        type = "V";
+                //    else if (_checkType == "RCF" || _checkType == "RCF - Pre Encoded")
+                //        type = "RCF";
+                //    else if (_checkType == "Business Check" || _checkType == "Business Check - Pre Encoded")
+                //        type = "BC";
+
+                //    foreach (string brstn in brstnList)
+                //    {
+                //        lineCounter += 11;
+
+                //        var checkList = _checks.Where(r => r.BRSTN == brstn).ToList();
+
+                //        output += "\n\t\t** CHECK TYPE/BRSTN/BATCH # ---->\t\t " + type + "/" + checkList[0].AccountNo + "/\n" +
+                //                      "\t\t** Branch: " + checkList[0].BranchName + "\n";
+
+                //        var acctList = checkList.Select(r => r.AccountNo).Distinct().ToList();
+
+                //        foreach (string acctNo in acctList)
+                //        {
+                //            var check = checkList.Where(r => r.AccountNo == acctNo).ToList();
+
+                //            output += "\t\t " + check[0].AccountNo + " " + check.Count.ToString() + " " + check[0].Name1 + "\n";
+
+                //            lineCounter++;
+
+                //            if (lineCounter >= 60)
+                //            {
+                //                output += Seperator();
+
+                //                page++;
+
+                //                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                //                      "\t\t" + DateTime.Now.ToShortDateString() +
+                //                      "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                //                      "\t\t\t\t\tEWB - " + _checkType + "\n\n" +
+                //                      "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                //                lineCounter = 0;
+                //            }
+                //        }
+
+                //        output += "\n\t\tSub Total: " + checkList.Count.ToString() + "\n";
+
+                //        lineCounter++;
+
+                //        if (lineCounter >= 60)
+                //        {
+                //            output += Seperator();
+
+                //            page++;
+
+                //            output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                //                  "\t\t" + DateTime.Now.ToShortDateString() +
+                //                  "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                //                  "\t\t\t\t\tEWB - " + _checkType + "\n\n" +
+                //                  "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                //            lineCounter = 0;
+                //        }
+                //    }//END OF FOREACH
+                //}
+
+                output += "\n\t\tGrand Total: " + _checks.Count.ToString();
+
+                return output;
+            }
+            catch (Exception error)
+            {
+                return "";
+            }
+        }//END OF FUNCTION
+
+        public static string ConvertNoSortRTFormatRb(List<OrderModelRb> _checks, string _checkType)
+        {
+            try
+            {
+                string output = "";
+
+                OrderModelRb tempCheck = new OrderModelRb();
+
+                int page = 1, lineCounter = 0;
+
+                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                              "\t\t" + DateTime.Now.ToShortDateString() +
+                              "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                              "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                              "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                if (_checks[0].ChkType == "A" || _checks[0].ChkType == "B")
+                {
+                    var checkListA = _checks.Where(r => r.ChkType == "A").ToList();
+
+                    var brstnList = checkListA.Select(r => r.BRSTN).Distinct().ToList();
+
+                    foreach (string brstn in brstnList)
+                    {
+                        lineCounter += 11;
+
+                        var checkList = checkListA.Where(r => r.BRSTN == brstn).ToList();
+
+                        output += "\n\t\t** CHECK TYPE/BRSTN/BATCH # ---->\t\t A/" + checkList[0].AccountNo + "/\n" +
+                                      "\t\t** Branch: " + checkList[0].BranchName + "\n";
+
+                        var acctList = checkList.Select(r => r.AccountNo).Distinct().ToList();
+
+                        foreach (string acctNo in acctList)
+                        {
+                            var check = checkList.Where(r => r.AccountNo == acctNo).ToList();
+                            output += "\t\t " + check[0].AccountNo + " " + check.Count.ToString() + " " + check[0].AccountName + "\n";
+
+                            lineCounter++;
+
+                            if (lineCounter >= 60)
+                            {
+                                output += Seperator();
+
+                                page++;
+
+                                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                      "\t\t" + DateTime.Now.ToShortDateString() +
+                                      "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                      "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                                      "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                                lineCounter = 0;
+                            }
+                        }
+
+                        output += "\n\t\tSub Total: " + checkList.Count.ToString() + "\n";
+
+                        lineCounter++;
+
+                        if (lineCounter >= 60)
+                        {
+                            output += Seperator();
+
+                            page++;
+
+                            output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                  "\t\t" + DateTime.Now.ToShortDateString() +
+                                  "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                  "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                                  "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                            lineCounter = 0;
+                        }
+                    }//END OF FOREACH
+
+                    var checkListB = _checks.Where(r => r.ChkType == "B").ToList();
+
+                    brstnList = checkListB.Select(r => r.BRSTN).Distinct().ToList();
+
+                    foreach (string brstn in brstnList)
+                    {
+                        lineCounter += 11;
+
+                        var checkList = checkListB.Where(r => r.BRSTN == brstn).ToList();
+
+                        output += "\n\t\t** CHECK TYPE/BRSTN/BATCH # ---->\t\t B/" + checkList[0].AccountNo + "/\n" +
+                                      "\t\t** Branch: " + checkList[0].BranchName + "\n";
+
+                        var acctList = checkList.Select(r => r.AccountNo).Distinct().ToList();
+
+                        foreach (string acctNo in acctList)
+                        {
+                            var check = checkList.Where(r => r.AccountNo == acctNo).ToList();
+
+                            output += "\t\t " + check[0].AccountNo + " " + check.Count.ToString() + " " + check[0].AccountName + "\n";
+
+                            lineCounter++;
+
+                            if (lineCounter >= 60)
+                            {
+                                output += Seperator();
+
+                                page++;
+
+                                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                      "\t\t" + DateTime.Now.ToShortDateString() +
+                                      "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                      "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                                      "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                                lineCounter = 0;
+                            }
+                        }
+
+                        output += "\n\t\tSub Total: " + checkList.Count.ToString() + "\n";
+
+                        lineCounter++;
+
+                        if (lineCounter >= 60)
+                        {
+                            output += Seperator();
+
+                            page++;
+
+                            output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                                  "\t\t" + DateTime.Now.ToShortDateString() +
+                                  "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                                  "\t\t\t\t\tAUB - " + _checkType + "\n\n" +
+                                  "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                            lineCounter = 0;
+                        }
+                    }//END OF FOREACH
+                }
+                //else
+                //{
+                //    var brstnList = _checks.Select(r => r.BRSTN).Distinct().ToList();
+
+                //    string type = "";
+
+                //    if (_checkType == "Manager's Check")
+                //        type = "MC";
+                //    else if (_checkType == "Basic Check" || _checkType == "Basic Check - Pre Encoded")
+                //        type = "J";
+                //    else if (_checkType == "Voucher" || _checkType == "Voucher - Pre Encoded")
+                //        type = "V";
+                //    else if (_checkType == "RCF" || _checkType == "RCF - Pre Encoded")
+                //        type = "RCF";
+                //    else if (_checkType == "Business Check" || _checkType == "Business Check - Pre Encoded")
+                //        type = "BC";
+
+                //    foreach (string brstn in brstnList)
+                //    {
+                //        lineCounter += 11;
+
+                //        var checkList = _checks.Where(r => r.BRSTN == brstn).ToList();
+
+                //        output += "\n\t\t** CHECK TYPE/BRSTN/BATCH # ---->\t\t " + type + "/" + checkList[0].AccountNo + "/\n" +
+                //                      "\t\t** Branch: " + checkList[0].BranchName + "\n";
+
+                //        var acctList = checkList.Select(r => r.AccountNo).Distinct().ToList();
+
+                //        foreach (string acctNo in acctList)
+                //        {
+                //            var check = checkList.Where(r => r.AccountNo == acctNo).ToList();
+
+                //            output += "\t\t " + check[0].AccountNo + " " + check.Count.ToString() + " " + check[0].Name1 + "\n";
+
+                //            lineCounter++;
+
+                //            if (lineCounter >= 60)
+                //            {
+                //                output += Seperator();
+
+                //                page++;
+
+                //                output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                //                      "\t\t" + DateTime.Now.ToShortDateString() +
+                //                      "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                //                      "\t\t\t\t\tEWB - " + _checkType + "\n\n" +
+                //                      "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                //                lineCounter = 0;
+                //            }
+                //        }
+
+                //        output += "\n\t\tSub Total: " + checkList.Count.ToString() + "\n";
+
+                //        lineCounter++;
+
+                //        if (lineCounter >= 60)
+                //        {
+                //            output += Seperator();
+
+                //            page++;
+
+                //            output += "\n\t\tPage No. " + page.ToString() + "\n" +
+                //                  "\t\t" + DateTime.Now.ToShortDateString() +
+                //                  "\n\n\t\t\t\tSummary of RT nos / # of Books \n" +
+                //                  "\t\t\t\t\tEWB - " + _checkType + "\n\n" +
+                //                  "\t\tACCTNO\t\t\tQTY BRANCH\t\t\t\t\tACCTOUNT NAME\n\n"; //Header
+
+                //            lineCounter = 0;
+                //        }
+                //    }//END OF FOREACH
+                //}
+
+                output += "\n\t\tGrand Total: " + _checks.Count.ToString();
+
+                return output;
+            }
+            catch (Exception error)
+            {
+                return "";
+            }
+        }//END OF FUNCTION
         public static string DoBlockHeader(string _chkTpye, string _batch ,string _output)
         {
             if (_chkTpye == "PERSONAL")
@@ -1517,6 +1952,7 @@ namespace New_AUB.Services
             }
             return _output;
         }
+
     }
    
 }

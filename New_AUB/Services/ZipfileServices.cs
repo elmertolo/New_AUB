@@ -23,18 +23,32 @@ namespace New_AUB.Services
             ZipFile.ExtractToDirectory(sourcePath, destinationPath);
         }
 
-        public void ZipFileS(string _processby, frmMain main)
+        public void ZipFileS(string _processby, frmMain main, List<OrderModel> _orders)
         {
 
-            string sPath = Application.StartupPath + "\\Output\\" + frmMain.outputFolder;
+            string sPath = Application.StartupPath + "\\Output";
             string dPath = Application.StartupPath+ "\\Output\\AFT_" + frmMain.batch+ "_" + _processby + ".zip";
             DeleteFiles(".zip",Application.StartupPath + "\\Output");
-            ZipFile.CreateFromDirectory(sPath, dPath);
+            ZipFile.CreateFromDirectory(Application.StartupPath + "\\Head", dPath);
             Ionic.Zip.ZipFile zips = new Ionic.Zip.ZipFile(dPath);
+            string path = "";
             //Adding order file to zip file
-            zips.AddItem(Application.StartupPath + "\\Head");
+            var checks = _orders.OrderBy(e => e.BRSTN).ToList();
+            for (int i = 0; i < checks.Count; i++)
+            {
+                sPath = Application.StartupPath + "\\Output\\" + frmMain.outputFolder;
+                if (sPath == path)
+                    i++;
+                else
+                {
 
-            zips.Save();
+                    zips.AddDirectory(sPath, frmMain.outputFolder);
+                    zips.Save();
+                    zips.Dispose();
+                    path = Application.StartupPath + "\\Output\\" + frmMain.outputFolder;
+                }
+                
+            }
 
         }
         public void ZipFileRb(string _processby, frmMain main,List<OrderModelRb> _orders)
